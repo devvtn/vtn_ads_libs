@@ -26,6 +26,7 @@ public class BannerActivity extends AppCompatActivity {
         //loadNative();
         loadNativeFloor();
 
+
     }
 
     public void loadBanner(){
@@ -33,6 +34,7 @@ public class BannerActivity extends AppCompatActivity {
                 .setKey(AdsConfig.key_ad_banner_id)
                 .setBannerType(AdBannerType.BANNER)
                 .setView(findViewById(R.id.bannerBot))
+                .setGravity(BannerGravity.top)
                 .build();
         AdmobVTN.getInstance().loadBannerWithConfig(this,adBannerConfig);
     }

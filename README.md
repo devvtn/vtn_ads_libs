@@ -97,13 +97,14 @@ public class MyApplication extends AdsApplication {
 <h4>Config banner</h4>
 <pre>
 
-AdBannerConfig adBannerConfig;
-adBannerConfig = new AdBannerConfig.Builder()
+    AdBannerConfig adBannerConfig;
+    adBannerConfig = new AdBannerConfig.Builder()
                 .setKey(key)
                 .setBannerType(AdBannerType.BANNER)
+                .setView(findViewById(R.id.bannerBot))
                 .setGravity(BannerGravity.top)
-                .setView(findViewById(R.id.banner))
                 .build();
+        
 
 </pre>
 <h4>Load banner in ativity</h4>
@@ -119,23 +120,25 @@ adBannerConfig = new AdBannerConfig.Builder()
 <h3>Splash</h3>
 <h4>Splash callback</h4>
 <pre>
+    
+    AdCallback adCallback;
 
-public AdCallback adCallback;
- adCallback = new AdCallback() {
-    @Override
-    public void onNextAction() {
-        super.onNextAction();
-        startActivity(new Intent(Splash.this, MainActivity.class));
-        finish();
-    }
-};
+    adCallback = new AdCallback() {
+            @Override
+            public void onNextAction() {
+                super.onNextAction();
+                startActivity(new Intent(Splash.this, MainActivity.class));
+                finish();
+            }
+        };
 
 </pre>
 <h4>Splash config</h4>
 <pre>
 
-public AdSplashConfig adSplashConfig;
-adSplashConfig = new AdSplashConfig.Builder()
+    AdSplashConfig adSplashConfig;
+
+    adSplashConfig = new AdSplashConfig.Builder()
                 .setKey(key)
                 .setAdSplashType(AdSplashType.SPLASH_INTER)
                 .setTimeOut(15000)
@@ -176,19 +179,19 @@ protected void onDestroy() {
   <h4>Inter config</h4>
 <pre>
 
-public AdInterConfig adInterConfig;
+    AdInterConfig adInterConfig;
 
-adInterConfig = new AdInterConfig.Builder()
-      .setKey(AdsConfig.key_ad_interstitial_id)
-      .setCallback(new AdCallback() {
-        @Override
-        public void onNextAction() {
-            super.onNextAction();
-            startActivity(new Intent(MainActivity.this, MainActivity3.class));
-            AdmobVTN.getInstance().loadInterWithKey(MainActivity.this, AdsConfig.key_ad_interstitial_id, false);
-        }
-      })
-      .build();
+    adInterConfig = new AdInterConfig.Builder()
+                        .setKey(key)
+                        .setCallback(new AdCallback() {
+                            @Override
+                            public void onNextAction() {
+                                super.onNextAction();
+                                //code here
+                                AdmobVTN.getInstance().loadInterWithKey(MainActivity.this, key, false);
+                            }
+                        })
+                        .build();
 
 </pre>
 <h4>Show Inter</h4>
@@ -204,8 +207,8 @@ AdmobVTN.getInstance().showInterWithConfig(MainActivity.this, adInterConfig);
   <h4>RewardAds config</h4>
 <pre>
 
-public AdRewardConfig adRewardConfig;
-adRewardConfig = new AdRewardConfig.Builder()
+    AdRewardConfig adRewardConfig;
+    adRewardConfig = new AdRewardConfig.Builder()
                 .setKey(AdsConfig.key_ad_app_reward_id)
                 .setRewardCallback(new RewardCallback() {
                     @Override
@@ -268,15 +271,17 @@ AdmobVTN.getInstance().showRewardWithConfig(MainActivity.this, adRewardConfig);
 <h4>NativeAds show</h4>
 <pre>
 
-      AdNativeConfig adNativeConfig;
+AdmobVTN.getInstance().loadNativeWithConfig(this,adNativeConfig,false);
 
+</pre>
+<h4>Resume disable</h4>
+<pre>
+AdmobVTN.getInstance().disableAppResumeWithActivity(class);
+</pre>
+<h4>Resume enable</h4>
+<pre>
+AdmobVTN.getInstance().enableAppResumeWithActivity(class);
 </pre>
 
 </div>
 
-<h4>Hide all ads</h4>
-<pre>
- Admob.getInstance().setShowAllAds(true);
- true - show all ads
- false - hide all ads
-</pre>
