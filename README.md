@@ -1,4 +1,4 @@
-<h1>VTNAdsLibraty</h1>
+<h1>VTNAdsLibrary</h1>
 <h3><li>Adding the library to your project: Add the following in your root build.gradle at the end of repositories:</li></h3>
 
 <pre>
@@ -35,7 +35,7 @@
 public static String key = "key";
 
 </pre>
-<h3><li>Init aplication</br></h3>
+<h3><li>Init application</br></h3>
 <pre> < application
    android:name=".MyApplication"
    .
@@ -106,8 +106,8 @@ public class MyApplication extends AdsApplication {
     adBannerConfig = new AdBannerConfig.Builder()
                 .setKey(key)
                 .setBannerType(AdBannerType.BANNER)
-                .setView(findViewById(R.id.bannerBot))
-                .setGravity(BannerGravity.top)
+                .setView(findViewById(R.id.banner))
+                .setGravity(BannerGravity.bottom)
                 .build();
         
 
