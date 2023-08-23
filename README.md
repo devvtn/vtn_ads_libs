@@ -150,7 +150,6 @@ public class MyApplication extends AdsApplication {
 </pre>
 <h4>Show ads splash</h4>
 <pre>
-
 AdmobVTN.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
 
 </pre>
@@ -194,9 +193,13 @@ protected void onDestroy() {
                         .build();
 
 </pre>
+<h4>Load Inter onCreate</h4>
+<pre>
+AdmobVTN.getInstance().loadInterWithKey(MainActivity.this, key, true);
+
+</pre>
 <h4>Show Inter</h4>
 <pre>
-
 AdmobVTN.getInstance().showInterWithConfig(MainActivity.this, adInterConfig);
 
 </pre>
