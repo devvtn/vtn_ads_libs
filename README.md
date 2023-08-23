@@ -37,6 +37,7 @@
    .
    .../></pre>
 <pre>
+
 public class MyApplication extends AdsApplication {
     @Override
     public void onCreate() {
@@ -83,7 +84,8 @@ public class MyApplication extends AdsApplication {
 <div class="content">
   <h4>View xml</h4>
 <pre>
-<include
+
+      <include
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,9 +93,10 @@ public class MyApplication extends AdsApplication {
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_alignParentBottom="true"/>
 
- </pre>
+</pre>
 <h4>Config banner</h4>
 <pre>
+
 AdBannerConfig adBannerConfig;
 adBannerConfig = new AdBannerConfig.Builder()
                 .setKey(key)
@@ -101,10 +104,13 @@ adBannerConfig = new AdBannerConfig.Builder()
                 .setGravity(BannerGravity.top)
                 .setView(findViewById(R.id.banner))
                 .build();
+
 </pre>
 <h4>Load banner in ativity</h4>
 <pre>
+
      AdmobVTN.getInstance().loadBannerWithConfig(this,adBannerConfig);
+
 </pre>
 
 </div>
@@ -113,6 +119,7 @@ adBannerConfig = new AdBannerConfig.Builder()
 <h3>Splash</h3>
 <h4>Splash callback</h4>
 <pre>
+
 public AdCallback adCallback;
  adCallback = new AdCallback() {
     @Override
@@ -126,6 +133,7 @@ public AdCallback adCallback;
 </pre>
 <h4>Splash config</h4>
 <pre>
+
 public AdSplashConfig adSplashConfig;
 adSplashConfig = new AdSplashConfig.Builder()
                 .setKey(key)
@@ -139,9 +147,12 @@ adSplashConfig = new AdSplashConfig.Builder()
 </pre>
 <h4>Show ads splash</h4>
 <pre>
+
 AdmobVTN.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
+
 </pre>
 <pre>
+
 @Override
 protected void onResume() {
   super.onResume();
@@ -150,8 +161,8 @@ protected void onResume() {
 
 @Override
 protected void onStop() {
-super.onStop();
-AdmobVTN.getInstance().dismissLoadingDialog();
+  super.onStop();
+  AdmobVTN.getInstance().dismissLoadingDialog();
 }
 
 @Override
@@ -159,53 +170,69 @@ protected void onDestroy() {
   super.onDestroy();
   AdmobVTN.getInstance().dismissLoadingDialog();
 }
+
 </pre>
 <h3>- InterstitialAds</h3>
-  <h4>Create and load interstitialAds</h4>
+  <h4>Inter config</h4>
 <pre>
-  private InterstitialAd mInterstitialAd;
 
-Admob.getInstance().loadInterAds(this, "interstitial_id" new InterCallback() {
-@Override
-public void onInterstitialLoad(InterstitialAd interstitialAd) {
-super.onInterstitialLoad(interstitialAd);
-mInterstitialAd = interstitialAd;
-}
-});
+public AdInterConfig adInterConfig;
+
+adInterConfig = new AdInterConfig.Builder()
+      .setKey(AdsConfig.key_ad_interstitial_id)
+      .setCallback(new AdCallback() {
+        @Override
+        public void onNextAction() {
+            super.onNextAction();
+            startActivity(new Intent(MainActivity.this, MainActivity3.class));
+            AdmobVTN.getInstance().loadInterWithKey(MainActivity.this, AdsConfig.key_ad_interstitial_id, false);
+        }
+      })
+      .build();
+
 </pre>
-<h4>Show interstitialAds</h4>
+<h4>Show Inter</h4>
 <pre>
-   Admob.getInstance().showInterAds(MainActivity.this, mInterstitialAd, new InterCallback() {
-                    @Override
-                    public void onNextAction() {
-                        startActivity(new Intent(MainActivity.this,MainActivity3.class));
-                        // Create and load interstitialAds (when not finish activity ) 
-                    }});
+
+AdmobVTN.getInstance().showInterWithConfig(MainActivity.this, adInterConfig);
+
 </pre>
 </div>
 
 <h2>- RewardAds</h2>
 <div class="content">
-  <h4>Init RewardAds</h4>
-<pre>  Admob.getInstance().initRewardAds(this,reward_id);</pre>
-<h4>Show RewardAds</h4>
+  <h4>RewardAds config</h4>
 <pre>
-  Admob.getInstance().showRewardAds(MainActivity.this,new RewardCallback(){
+
+public AdRewardConfig adRewardConfig;
+adRewardConfig = new AdRewardConfig.Builder()
+                .setKey(AdsConfig.key_ad_app_reward_id)
+                .setRewardCallback(new RewardCallback() {
                     @Override
                     public void onEarnedReward(RewardItem rewardItem) {
-                        // code here
+                        Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onAdClosed() {
-                        // code here
+                        Toast.makeText(MainActivity.this, "Close ads", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onAdFailedToShow(int codeError) {
-                       // code here
+                        Toast.makeText(MainActivity.this, "Loa ads err", Toast.LENGTH_SHORT).show();
                     }
-                });
+                })
+                .build();
+
+</pre>
+<h4>Init RewardAds</h4>
+<pre>
+AdmobVTN.getInstance().initRewardWithConfig(this, adRewardConfig);
+</pre>
+<h4>Show RewardAds</h4>
+<pre>
+AdmobVTN.getInstance().showRewardWithConfig(MainActivity.this, adRewardConfig);
 
 </pre>
 </div>
@@ -215,34 +242,33 @@ mInterstitialAd = interstitialAd;
   <h4>View xml</h4>
 <pre>
 
-    < FrameLayout
+    <FrameLayout
         android:id="@+id/native_ads"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerInParent="true">
+
+        <include layout="@layout/ads_native_shimer" />
+    </FrameLayout>
 
 </pre>
-<h4>Create and show nativeAds</h4>
+<h4>NativeAds config</h4>
 <pre>
 
-     private FrameLayout native_ads;
-     
-     native_ads = findViewById(R.id.native_ads);
-     
-      Admob.getInstance().loadNativeAd(this, "native_id", new NativeCallback() {
-            @Override
-            public void onNativeAdLoaded(NativeAd nativeAd) {
-                NativeAdView adView = ( NativeAdView) LayoutInflater.from(MainActivity.this).inflate(R.layout.layout_native, null);
-                fr_ads1.removeAllViews();
-                fr_ads1.addView(adView);
-                Admob.getInstance().pushAdsToViewCustom(nativeAd, adView);
-            }
-             @Override
-                public void onAdFailedToLoad() {
-                    fr_ads1.removeAllViews();
-                }
-        });
+      AdNativeConfig adNativeConfig;
+      adNativeConfig = new AdNativeConfig.Builder()
+                .setKey(key)
+                .setNativeType(AdNativeType.NATIVE)
+                .setLayout(R.layout.layout_native_custom)
+                .setView(findViewById(R.id.native_ads))
+                .build();
+
+</pre>
+
+<h4>NativeAds show</h4>
+<pre>
+
+      AdNativeConfig adNativeConfig;
 
 </pre>
 

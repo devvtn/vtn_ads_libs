@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
     public static String PRODUCT_ID_YEAR = "android.test.purchased";
     public static String PRODUCT_ID_MONTH = "android.test.purchased";
 
-    AdRewardConfig adRewardConfig;
+    public AdRewardConfig adRewardConfig;
+    public AdInterConfig adInterConfig;
 
 
     @Override
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnClickInter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AdInterConfig adInterConfig = new AdInterConfig.Builder()
+                 adInterConfig = new AdInterConfig.Builder()
                         .setKey(AdsConfig.key_ad_interstitial_id)
                         .setCallback(new AdCallback() {
                             @Override
