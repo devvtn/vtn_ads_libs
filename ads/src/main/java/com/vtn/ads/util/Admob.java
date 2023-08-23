@@ -23,6 +23,7 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,9 +61,10 @@ import com.vtn.ads.R;
 import com.vtn.ads.banner.BannerPlugin;
 import com.vtn.ads.billing.AppPurchase;
 import com.vtn.ads.callback.AdCallback;
-import com.vtn.ads.callback.InterCallback;
+import com.vtn.ads.callback.AdCallback;
 import com.vtn.ads.callback.NativeCallback;
 import com.vtn.ads.callback.RewardCallback;
+import com.vtn.ads.config.AdSplashConfig;
 import com.vtn.ads.dialog.LoadingAdsDialog;
 
 import java.security.MessageDigest;
@@ -198,6 +200,16 @@ public class Admob {
             loadBanner(mActivity, id, adContainer, containerShimmer, null, false, BANNER_INLINE_LARGE_STYLE);
         }
     }
+    public void loadBanner(final Activity mActivity, String id,ViewGroup view) {
+        final FrameLayout adContainer = view.findViewById(R.id.banner_container);
+        final ShimmerFrameLayout containerShimmer = view.findViewById(R.id.shimmer_container_banner);
+        if(!isShowAllAds||!isNetworkConnected()){
+            adContainer.setVisibility(View.GONE);
+            containerShimmer.setVisibility(View.GONE);
+        }else{
+            loadBanner(mActivity, id, adContainer, containerShimmer, null, false, BANNER_INLINE_LARGE_STYLE);
+        }
+    }
 
     public void loadBannerPlugin(Activity activity, ViewGroup layout , ViewGroup shimmer , BannerPlugin.Config config){
         new BannerPlugin(activity,layout,shimmer,config);
@@ -275,6 +287,16 @@ public class Admob {
     public void loadCollapsibleBanner(final Activity mActivity, String id, String gravity) {
         final FrameLayout adContainer = mActivity.findViewById(R.id.banner_container);
         final ShimmerFrameLayout containerShimmer = mActivity.findViewById(R.id.shimmer_container_banner);
+        if(!isShowAllAds||!isNetworkConnected()){
+            adContainer.setVisibility(View.GONE);
+            containerShimmer.setVisibility(View.GONE);
+        }else{
+            loadCollapsibleBanner(mActivity, id, gravity, adContainer, containerShimmer);
+        }
+    }
+    public void loadCollapsibleBanner(final Activity mActivity, String id, String gravity,ViewGroup view) {
+        final FrameLayout adContainer = view.findViewById(R.id.banner_container);
+        final ShimmerFrameLayout containerShimmer = view.findViewById(R.id.shimmer_container_banner);
         if(!isShowAllAds||!isNetworkConnected()){
             adContainer.setVisibility(View.GONE);
             containerShimmer.setVisibility(View.GONE);
@@ -561,7 +583,8 @@ public class Admob {
     /**
      * Load ads in Splash
      */
-    public void loadSplashInterAds(final Context context, String id, long timeOut, long timeDelay, final InterCallback adListener) {
+
+    public void loadSplashInterAds(final Context context, String id, long timeOut, long timeDelay, final AdCallback adListener) {
         isTimeDelay = false;
         isTimeout = false;
         if(!isNetworkConnected()){
@@ -627,7 +650,7 @@ public class Admob {
                 }
 
                 isShowLoadingSplash = true;
-                loadInterAds(context, id, new InterCallback() {
+                loadInterAds(context, id, new AdCallback() {
                     @Override
                     public void onInterstitialLoad(InterstitialAd interstitialAd) {
                         super.onInterstitialLoad(interstitialAd);
@@ -680,7 +703,7 @@ public class Admob {
             }
         }
     }
-    public void loadSplashInterAds2(final Context context, String id, long timeDelay, final InterCallback adListener){
+    public void loadSplashInterAds2(final Context context, String id, long timeDelay, final AdCallback adListener){
         if(!isNetworkConnected()||AppPurchase.getInstance().isPurchased(context)||!isShowAllAds){
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -721,7 +744,7 @@ public class Admob {
         }
     }
 
-    public void loadSplashInterAdsFloor(final Context context, List<String> listID, long timeDelay, final InterCallback adListener){
+    public void loadSplashInterAdsFloor(final Context context, List<String> listID, long timeDelay, final AdCallback adListener){
         if(!isNetworkConnected()||AppPurchase.getInstance().isPurchased(context)||!isShowAllAds){
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -791,7 +814,7 @@ public class Admob {
         }
     }
 
-    public void onShowSplash(Activity activity, InterstitialAd interSplash, InterCallback adListener) {
+    public void onShowSplash(Activity activity, InterstitialAd interSplash, AdCallback adListener) {
         AppOpenManager.getInstance().disableAppResume();
         isShowLoadingSplash = true;
         mInterstitialSplash = interSplash;
@@ -945,7 +968,7 @@ public class Admob {
             dialog.dismiss();
     }
 
-    private void onShowSplash(Activity activity, InterCallback adListener) {
+    private void onShowSplash(Activity activity, AdCallback adListener) {
         Log.e(TAG, "onShowSplash: start");
         isShowLoadingSplash = true;
         if (mInterstitialSplash == null) {
@@ -1121,7 +1144,7 @@ public class Admob {
      Return 1 inter ads
      */
 
-    public void loadInterAds(Context context, String id, InterCallback adCallback) {
+    public void loadInterAds(Context context, String id, AdCallback adCallback) {
         if (AppPurchase.getInstance().isPurchased(context)||!isShowAllAds) {
             adCallback.onInterstitialLoad(null);
             return;
@@ -1163,17 +1186,17 @@ public class Admob {
     /**
      Show ads inter
      */
-    public void showInterAds(Context context, InterstitialAd mInterstitialAd, final InterCallback callback) {
+    public void showInterAds(Context context, InterstitialAd mInterstitialAd, final AdCallback callback) {
         showInterAds(context, mInterstitialAd, callback, false);
 
     }
 
-    private void showInterAds(Context context, InterstitialAd mInterstitialAd, final InterCallback callback, boolean shouldReload) {
+    private void showInterAds(Context context, InterstitialAd mInterstitialAd, final AdCallback callback, boolean shouldReload) {
         currentClicked = numShowAds;
         showInterAdByTimes(context, mInterstitialAd, callback, shouldReload);
     }
 
-    private void showInterAdByTimes(final Context context, InterstitialAd mInterstitialAd, final InterCallback callback, final boolean shouldReloadAds) {
+    private void showInterAdByTimes(final Context context, InterstitialAd mInterstitialAd, final AdCallback callback, final boolean shouldReloadAds) {
 
         if(logLogTimeShowAds){
             currentTimeShowAds =System.currentTimeMillis();
@@ -1267,7 +1290,7 @@ public class Admob {
         }
     }
 
-    private void showInterstitialAd(Context context, InterstitialAd mInterstitialAd, InterCallback callback) {
+    private void showInterstitialAd(Context context, InterstitialAd mInterstitialAd, AdCallback callback) {
         if(!isShowInter||!isShowAllAds){
             callback.onAdClosed();
             callback.onNextAction();
@@ -1331,7 +1354,7 @@ public class Admob {
     /**
      load and show ads inter
      */
-    public void loadAndShowInter(AppCompatActivity activity, String idInter, int timeDelay, int timeOut, InterCallback callback){
+    public void loadAndShowInter(AppCompatActivity activity, String idInter, int timeDelay, int timeOut, AdCallback callback){
         if (!isNetworkConnected()) {
             callback.onAdClosed();
             callback.onNextAction();
@@ -1901,7 +1924,7 @@ public class Admob {
 
     }
 
-    public void onCheckShowSplashWhenFail(final AppCompatActivity activity, final InterCallback callback, int timeDelay) {
+    public void onCheckShowSplashWhenFail(final AppCompatActivity activity, final AdCallback callback, long timeDelay) {
         if(isNetworkConnected()){
             (new Handler(activity.getMainLooper())).postDelayed(new Runnable() {
                 public void run() {
@@ -1914,7 +1937,7 @@ public class Admob {
             }, (long)timeDelay);
         }
     }
-    public void onCheckShowSplashWhenFailClickButton(final AppCompatActivity activity,InterstitialAd interstitialAd, final InterCallback callback, int timeDelay) {
+    public void onCheckShowSplashWhenFailClickButton(final AppCompatActivity activity,InterstitialAd interstitialAd, final AdCallback callback, int timeDelay) {
         if(interstitialAd!=null){
             if(isNetworkConnected()){
                 (new Handler(activity.getMainLooper())).postDelayed(new Runnable() {
@@ -1929,6 +1952,12 @@ public class Admob {
             }
         }
     }
+
+
+
+
+
+
 
     public int round1000(long time){
         return (int)(Math.round(time/1000));

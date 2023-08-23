@@ -845,6 +845,7 @@ public class AppOpenManager implements Application.ActivityLifecycleCallbacks, L
             },3000);
         }else{
             if (listIDResume == null) {
+                Log.e("AppOpenManager", "load ID :" + "null");
                 adCallback.onAdFailedToLoad(null);
                 adCallback.onNextAction();
                 return;
@@ -896,7 +897,7 @@ public class AppOpenManager implements Application.ActivityLifecycleCallbacks, L
         }
     }
 
-    public void onCheckShowSplashWhenFail(final AppCompatActivity activity, final AdCallback callback, int timeDelay) {
+    public void onCheckShowSplashWhenFail(final AppCompatActivity activity, final AdCallback callback, long timeDelay) {
         (new Handler(activity.getMainLooper())).postDelayed(new Runnable() {
             public void run() {
                 if (AppOpenManager.this.splashAd != null&&!AppOpenManager.isShowingAd ) {

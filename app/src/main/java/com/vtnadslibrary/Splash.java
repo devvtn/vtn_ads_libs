@@ -8,9 +8,10 @@ import android.provider.Settings;
 
 import com.vtn.ads.billing.AppPurchase;
 import com.vtn.ads.callback.BillingListener;
-import com.vtn.ads.callback.InterCallback;
-import com.vtn.ads.util.Admob;
-import com.google.android.gms.ads.LoadAdError;
+import com.vtn.ads.callback.AdCallback;
+import com.vtn.ads.config.AdSplashConfig;
+import com.vtn.ads.adstype.AdSplashType;
+import com.vtn.ads.util.AdmobVTN;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,9 @@ import java.util.List;
 public class Splash extends AppCompatActivity {
     private static final String TAG = "SplashActivity";
     public static String PRODUCT_ID_MONTH = "android.test.purchased";
-    public InterCallback interCallback;
+    public AdCallback adCallback;
+    public AdSplashConfig adSplashConfig;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,17 +31,19 @@ public class Splash extends AppCompatActivity {
         //Admob.getInstance().setOpenShowAllAds(true);
         //Admob.getInstance().setDisableAdResumeWhenClickAds(true);
         //Admob.getInstance().setOpenEventLoadTimeLoadAdsSplash(true);
-       // Admob.getInstance().setOpenEventLoadTimeShowAdsInter(true);
-       // Admob.getInstance().setOpenActivityAfterShowInterAds(false);
+        // Admob.getInstance().setOpenEventLoadTimeShowAdsInter(true);
+        // Admob.getInstance().setOpenActivityAfterShowInterAds(false);
 
-        interCallback = new InterCallback(){
+        adCallback = new AdCallback() {
             @Override
             public void onNextAction() {
                 super.onNextAction();
-                startActivity(new Intent(Splash.this,MainActivity.class));
+                startActivity(new Intent(Splash.this, MainActivity.class));
                 finish();
             }
         };
+
+
         // Admob
         AppPurchase.getInstance().setBillingListener(new BillingListener() {
             @Override
@@ -46,10 +51,10 @@ public class Splash extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        List<String> listID = new ArrayList<>();
-                        listID.add("ca-app-pub-3940256099942544/1033173712");
-                        listID.add("ca-app-pub-3940256099942544/1033173712");
-                        Admob.getInstance().loadSplashInterAdsFloor(Splash.this,listID,2000, interCallback);
+                        //ShowSplashInter();
+                        //ShowSplashInterFloor();
+                        //ShowSplashOpen();
+                         ShowSplashOpenFloor();
                     }
                 });
             }
@@ -61,26 +66,72 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Admob.getInstance().dismissLoadingDialog();
+        AdmobVTN.getInstance().dismissLoadingDialog();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Admob.getInstance().dismissLoadingDialog();
+        AdmobVTN.getInstance().dismissLoadingDialog();
     }
 
     private void initBilling() {
         List<String> listINAPId = new ArrayList<>();
         listINAPId.add(PRODUCT_ID_MONTH);
         List<String> listSubsId = new ArrayList<>();
-        AppPurchase.getInstance().initBilling(getApplication(),listINAPId,listSubsId);
+        AppPurchase.getInstance().initBilling(getApplication(), listINAPId, listSubsId);
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Admob.getInstance().onCheckShowSplashWhenFail(this,interCallback,1000);
+        AdmobVTN.getInstance().onCheckShowSplashWhenFailWithConfig(this, adSplashConfig, 1000);
+    }
+
+    public void ShowSplashInter() {
+        adSplashConfig = new AdSplashConfig.Builder()
+                .setKey(AdsConfig.key_ad_interstitial_id)
+                .setAdSplashType(AdSplashType.SPLASH_INTER)
+                .setTimeDelay(3000)
+                .setCallback(adCallback)
+                .build();
+        AdmobVTN.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
+
+    }
+
+    public void ShowSplashInterFloor() {
+        adSplashConfig = new AdSplashConfig.Builder()
+                .setKey(AdsConfig.key_ad_splash_floor_id)
+                .setAdSplashType(AdSplashType.SPLASH_INTER_FLOOR)
+                .setTimeDelay(3000)
+                .setCallback(adCallback)
+                .build();
+        AdmobVTN.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
+
+    }
+
+    public void ShowSplashOpen() {
+        adSplashConfig = new AdSplashConfig.Builder()
+                .setKey(AdsConfig.key_ad_app_open_ad_id)
+                .setAdSplashType(AdSplashType.SPLASH_OPEN)
+                .setTimeOut(15000)
+                .setTimeDelay(3000)
+                .setShowAdIfReady(true)
+                .setCallback(adCallback)
+                .build();
+        AdmobVTN.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
+
+    }
+
+    public void ShowSplashOpenFloor() {
+        adSplashConfig = new AdSplashConfig.Builder()
+                .setKey(AdsConfig.key_ad_open_floor_id)
+                .setAdSplashType(AdSplashType.SPLASH_OPEN_FLOOR)
+                .setShowAdIfReady(true)
+                .setCallback(adCallback)
+                .build();
+        AdmobVTN.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
+
     }
 }

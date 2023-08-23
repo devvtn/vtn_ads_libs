@@ -19,9 +19,12 @@ import com.vtn.ads.callback.IClickBtn;
 import com.vtn.ads.callback.NativeCallback;
 import com.vtn.ads.callback.PurchaseListioner;
 import com.vtn.ads.callback.RewardCallback;
-import com.vtn.ads.callback.InterCallback;
+import com.vtn.ads.callback.AdCallback;
+import com.vtn.ads.config.AdInterConfig;
+import com.vtn.ads.config.AdRewardConfig;
 import com.vtn.ads.rate.RateBuilder;
 import com.vtn.ads.util.Admob;
+import com.vtn.ads.util.AdmobVTN;
 import com.vtn.ads.util.BannerGravity;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     public static String PRODUCT_ID_YEAR = "android.test.purchased";
     public static String PRODUCT_ID_MONTH = "android.test.purchased";
 
+    AdRewardConfig adRewardConfig;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,66 +51,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         native_ads = findViewById(R.id.native_ads);
         // Admob.getInstance().loadCollapsibleBanner(this, getString(R.string.admod_banner_id), BannerGravity.bottom);
-        Admob.getInstance().initRewardAds(this, getString(R.string.admod_app_reward_id));
-
-
-
-        BannerPlugin.Config config = new BannerPlugin.Config();
-        config.defaultAdUnitId = getString(R.string.admod_banner_id);
-        config.defaultBannerType = BannerPlugin.BannerType.Adaptive;
-        config.setConfigKey("test_banner_flugin");
-
-
-        //BannerPlugin bannerPlugin = new BannerPlugin(this,findViewById(R.id.banner),findViewById(R.id.shimmer),config);
-       // Admob.getInstance().loadBannerPlugin(this, findViewById(R.id.banner), findViewById(R.id.shimmer), config);
-        Admob.getInstance().loadCollapsibleBanner(this,getString(R.string.admod_banner_id_collapse),"bottom");
-        loadAdInter();
-        loadAdsNative();
-        findViewById(R.id.clickHideBanner).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                findViewById(R.id.banner).setVisibility(View.GONE);
-                Toast.makeText(MainActivity.this, "Hide banener", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        findViewById(R.id.clickFGM).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MainActivity2.class));
-            }
-        });
-        takePermission();
-
-
-        findViewById(R.id.btnClickInter).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Admob.getInstance().showInterAds(MainActivity.this, mInterstitialAd, new InterCallback() {
-                    @Override
-                    public void onAdClosed() {
-                        startActivity(new Intent(MainActivity.this, MainActivity3.class));
-                        loadAdInter();
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(LoadAdError i) {
-                        startActivity(new Intent(MainActivity.this, MainActivity3.class));
-                        loadAdInter();
-                    }
-
-                });
-            }
-        });
-
-
-        findViewById(R.id.btnClickReward).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Admob.getInstance().showRewardAds(MainActivity.this, new RewardCallback() {
+        adRewardConfig = new AdRewardConfig.Builder()
+                .setKey(AdsConfig.key_ad_app_reward_id)
+                .setRewardCallback(new RewardCallback() {
                     @Override
                     public void onEarnedReward(RewardItem rewardItem) {
-                        Toast.makeText(MainActivity.this, "Trả thưởng thành công", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -117,27 +68,63 @@ public class MainActivity extends AppCompatActivity {
                     public void onAdFailedToShow(int codeError) {
                         Toast.makeText(MainActivity.this, "Loa ads err", Toast.LENGTH_SHORT).show();
                     }
-                });
+                })
+                .build();
+        AdmobVTN.getInstance().initRewardWithConfig(this, adRewardConfig);
+
+
+        BannerPlugin.Config config = new BannerPlugin.Config();
+        config.defaultAdUnitId = getString(R.string.admod_banner_id);
+        config.defaultBannerType = BannerPlugin.BannerType.Adaptive;
+        config.setConfigKey("test_banner_flugin");
+
+
+        //BannerPlugin bannerPlugin = new BannerPlugin(this,findViewById(R.id.banner),findViewById(R.id.shimmer),config);
+        // Admob.getInstance().loadBannerPlugin(this, findViewById(R.id.banner), findViewById(R.id.shimmer), config);
+        Admob.getInstance().loadCollapsibleBanner(this, getString(R.string.admod_banner_id_collapse), "bottom");
+        AdmobVTN.getInstance().loadInterWithKey(this, AdsConfig.key_ad_interstitial_id, true);
+        loadAdsNative();
+
+
+        findViewById(R.id.clickFGM).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MainActivity2.class));
+            }
+        });
+        findViewById(R.id.testbanner).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, BannerActivity.class));
+            }
+        });
+        takePermission();
+
+
+        findViewById(R.id.btnClickInter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AdInterConfig adInterConfig = new AdInterConfig.Builder()
+                        .setKey(AdsConfig.key_ad_interstitial_id)
+                        .setCallback(new AdCallback() {
+                            @Override
+                            public void onNextAction() {
+                                super.onNextAction();
+                                startActivity(new Intent(MainActivity.this, MainActivity3.class));
+                                AdmobVTN.getInstance().loadInterWithKey(MainActivity.this, AdsConfig.key_ad_interstitial_id, false);
+                            }
+                        })
+                        .build();
+                AdmobVTN.getInstance().showInterWithConfig(MainActivity.this, adInterConfig);
+
             }
         });
 
 
-        findViewById(R.id.btnClickLoadAndShow).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnClickReward).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Admob.getInstance().loadAndShowInter(MainActivity.this, getString(R.string.admod_interstitial_id), 0, 10000, new InterCallback() {
-                    @Override
-                    public void onAdClosed() {
-                        super.onAdClosed();
-                        startActivity(new Intent(MainActivity.this, MainActivity2.class));
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(LoadAdError i) {
-                        super.onAdFailedToLoad(i);
-                        startActivity(new Intent(MainActivity.this, MainActivity2.class));
-                    }
-                });
+                AdmobVTN.getInstance().showRewardWithConfig(MainActivity.this, adRewardConfig);
             }
         });
 
@@ -217,23 +204,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadAdInter() {
-        Admob.getInstance().loadInterAds(this, getString(R.string.admod_interstitial_id), new InterCallback() {
-            @Override
-            public void onInterstitialLoad(InterstitialAd interstitialAd) {
-                super.onInterstitialLoad(interstitialAd);
-                mInterstitialAd = interstitialAd;
-            }
-        });
-    }
 
     @Override
     public void onBackPressed() {
         RateBuilder builder = new RateBuilder(this)
-                .setArrStar(new int[]{R.drawable.ic_mstar_0,R.drawable.ic_mstar_1,R.drawable.ic_mstar_2,R.drawable.ic_mstar_3,R.drawable.ic_mstar_4,R.drawable.ic_mstar_5})
+                .setArrStar(new int[]{R.drawable.ic_mstar_0, R.drawable.ic_mstar_1, R.drawable.ic_mstar_2, R.drawable.ic_mstar_3, R.drawable.ic_mstar_4, R.drawable.ic_mstar_5})
                 .setTextTitle("Rate us")
                 .setTextContent("Tap a star to set your rating")
-                .setTextButton("Rate now","Not now")
+                .setTextButton("Rate now", "Not now")
                 .setTextTitleColor(Color.parseColor("#000000"))
                 .setTextNotNowColor(Color.parseColor("#EDEDED"))
                 .setDrawableButtonRate(R.drawable.border_rate)
@@ -248,17 +226,17 @@ public class MainActivity extends AppCompatActivity {
                 .setOnclickBtn(new IClickBtn() {
                     @Override
                     public void onclickNotNow() {
-                        Toast.makeText(MainActivity.this,"onclickNotNow",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "onclickNotNow", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onClickRate(float rate) {
-                        Toast.makeText(MainActivity.this,rate+"",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, rate + "", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onReviewAppSuccess() {
-                        finishAffinity();
+
                     }
                 });
         builder.build();

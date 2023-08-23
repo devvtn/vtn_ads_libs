@@ -1,6 +1,6 @@
 package com.vtn.ads.util;
 
 public class BannerGravity {
-    public static String bottom = "BOTTOM";
-    public static String top = "TOP";
+    public static String bottom = "bottom";
+    public static String top = "top";
 }

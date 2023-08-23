@@ -8,25 +8,38 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
-import com.vtn.ads.callback.InterCallback;
+import com.vtn.ads.callback.AdCallback;
+import com.vtn.ads.config.AdBannerConfig;
+import com.vtn.ads.adstype.AdBannerType;
 import com.vtn.ads.util.Admob;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.vtn.ads.util.AdmobVTN;
 
 public class Fragment1 extends Fragment {
     Button btnclick;
     InterstitialAd mInterstitialAd;
+    AdBannerConfig adBannerConfig;
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment1,container,false);
-        Admob.getInstance().loadBannerFragment(requireActivity(),getString(R.string.admod_banner_id),view);
+        loadBanner(view);
         return view;
 
     }
 
+    public void loadBanner(View view){
+        adBannerConfig = new AdBannerConfig.Builder()
+                .setKey(AdsConfig.key_ad_banner_id)
+                .setBannerType(AdBannerType.BANNER)
+                .setView(view.findViewById(R.id.include))
+                .build();
+        AdmobVTN.getInstance().loadBannerWithConfig(requireActivity(),adBannerConfig);
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        Admob.getInstance().loadInterAds(getContext(),getString(R.string.admod_interstitial_id), new InterCallback(){
+        Admob.getInstance().loadInterAds(getContext(),getString(R.string.admod_interstitial_id), new AdCallback(){
             @Override
             public void onInterstitialLoad(InterstitialAd interstitialAd) {
                 super.onInterstitialLoad(interstitialAd);
@@ -37,7 +50,7 @@ public class Fragment1 extends Fragment {
         btnclick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Admob.getInstance().showInterAds(getActivity(),mInterstitialAd,new InterCallback(){
+                Admob.getInstance().showInterAds(getActivity(),mInterstitialAd,new AdCallback(){
                     @Override
                     public void onAdClosed() {
                         super.onAdClosed();

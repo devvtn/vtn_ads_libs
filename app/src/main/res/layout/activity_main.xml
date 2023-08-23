@@ -16,22 +16,23 @@
         <include layout="@layout/ads_native_shimer" />
     </FrameLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center">
+
         <Button
-            android:id="@+id/clickHideBanner"
+            android:id="@+id/testbanner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="HideBanner"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="Banner and Native"
+
+            />
+
         <Button
-            android:layout_below="@+id/clickHideBanner"
             android:id="@+id/clickFGM"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,7 +54,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
 
 
         <Button
@@ -69,29 +72,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnClickLoadAndShow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btnClickReward"
-            android:layout_centerHorizontal="true"
-            android:text="Click load and show inter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
             android:id="@+id/btnBilding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btnClickLoadAndShow"
+            android:layout_below="@+id/btnClickReward"
             android:layout_centerHorizontal="true"
             android:text="IAP"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <!--    <FrameLayout-->
     <!--        android:id="@+id/banner"-->

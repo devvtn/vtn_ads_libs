@@ -59,4 +59,12 @@ public class AdCallback {
     public void onInterstitialShow() {
 
     }
+
+    public void onAdClosedByUser(){
+    }
+
+    public void onEarnRevenue(Double Revenue){
+    }
+
+
 }
