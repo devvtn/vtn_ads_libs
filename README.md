@@ -30,6 +30,11 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/app_id" />
 </pre>
+<h3>Create file AdsConfig.java</h3>
+<pre>
+public static String key = "key";
+
+</pre>
 <h3><li>Init aplication</br></h3>
 <pre> < application
    android:name=".MyApplication"
