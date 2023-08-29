@@ -1,5 +1,3 @@
-
-
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -26,13 +24,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    repositories {
-        maven {
-            //IronSource
-            url "https://android-sdk.is.com/"
-        }
-        mavenCentral()
-    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -45,8 +37,8 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.recyclerview:recyclerview:1.3.0'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
@@ -66,7 +58,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-config:21.4.1'
 
-    implementation 'com.google.android.gms:play-services-ads:22.2.0'
+    implementation 'com.google.android.gms:play-services-ads:22.3.0'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.google.android.gms:play-services-basement:18.2.0'
     implementation 'com.google.code.gson:gson:2.10.1'
@@ -75,14 +67,17 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:16.1.2'
 
 
-    implementation 'com.airbnb.android:lottie:6.0.0'
+    implementation 'com.airbnb.android:lottie:6.1.0'
 
     //appsflyer
     implementation 'com.appsflyer:af-android-sdk:6.11.2'
     implementation 'com.appsflyer:adrevenue:6.9.1'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.0"
     //play core
-    implementation 'com.google.android.play:core:1.10.0'
+    implementation 'com.google.android.play:core:1.10.3'
+
+    //Adjust
+    api 'com.adjust.sdk:adjust-android:4.33.5'
+    api 'com.android.installreferrer:installreferrer:2.2'
 
 }

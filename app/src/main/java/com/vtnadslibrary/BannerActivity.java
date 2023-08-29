@@ -9,7 +9,7 @@ import com.vtn.ads.adstype.AdNativeType;
 import com.vtn.ads.config.AdBannerConfig;
 import com.vtn.ads.adstype.AdBannerType;
 import com.vtn.ads.config.AdNativeConfig;
-import com.vtn.ads.util.AdmobVTN;
+import com.vtn.ads.util.RemoteAdmob;
 import com.vtn.ads.util.BannerGravity;
 
 public class BannerActivity extends AppCompatActivity {
@@ -36,7 +36,7 @@ public class BannerActivity extends AppCompatActivity {
                 .setView(findViewById(R.id.bannerBot))
                 .setGravity(BannerGravity.top)
                 .build();
-        AdmobVTN.getInstance().loadBannerWithConfig(this,adBannerConfig);
+        RemoteAdmob.getInstance().loadBannerWithConfig(this,adBannerConfig);
     }
 
     public void loadBannerCollapseTop(){
@@ -46,7 +46,7 @@ public class BannerActivity extends AppCompatActivity {
                 .setGravity(BannerGravity.top)
                 .setView(findViewById(R.id.bannerTop))
                 .build();
-        AdmobVTN.getInstance().loadBannerWithConfig(this,adBannerConfig);
+        RemoteAdmob.getInstance().loadBannerWithConfig(this,adBannerConfig);
     }
 
     public void loadBannerCollapseBot(){
@@ -56,7 +56,7 @@ public class BannerActivity extends AppCompatActivity {
                 .setGravity(BannerGravity.bottom)
                 .setView(findViewById(R.id.bannerBot))
                 .build();
-        AdmobVTN.getInstance().loadBannerWithConfig(this,adBannerConfig);
+        RemoteAdmob.getInstance().loadBannerWithConfig(this,adBannerConfig);
     }
 
     public void loadNative(){
@@ -66,7 +66,7 @@ public class BannerActivity extends AppCompatActivity {
                 .setLayout(R.layout.layout_native_custom)
                 .setView(findViewById(R.id.native_ads))
                 .build();
-        AdmobVTN.getInstance().loadNativeWithConfig(this,adNativeConfig,false);
+        RemoteAdmob.getInstance().loadNativeWithConfig(this,adNativeConfig,false);
     }
 
     public void loadNativeFloor(){
@@ -76,6 +76,6 @@ public class BannerActivity extends AppCompatActivity {
                 .setLayout(R.layout.layout_native_custom)
                 .setView(findViewById(R.id.native_ads))
                 .build();
-        AdmobVTN.getInstance().loadNativeWithConfig(this,adNativeConfig,false);
+        RemoteAdmob.getInstance().loadNativeWithConfig(this,adNativeConfig,false);
     }
 }

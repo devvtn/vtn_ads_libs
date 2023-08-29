@@ -4,14 +4,14 @@ import com.google.android.gms.ads.interstitial.InterstitialAd;
 
 import java.util.List;
 
-public class IDADS {
+public class AdmobUnit {
     public String keyAds;
     public String idAds;
     public List<String> listIdAds;
 
     public InterstitialAd mInterstitialAd;
 
-    public IDADS() {
+    public AdmobUnit() {
     }
 
     public InterstitialAd getmInterstitialAd() {

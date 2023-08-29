@@ -24,9 +24,7 @@ import com.vtn.ads.config.AdInterConfig;
 import com.vtn.ads.config.AdRewardConfig;
 import com.vtn.ads.rate.RateBuilder;
 import com.vtn.ads.util.Admob;
-import com.vtn.ads.util.AdmobVTN;
-import com.vtn.ads.util.BannerGravity;
-import com.google.android.gms.ads.LoadAdError;
+import com.vtn.ads.util.RemoteAdmob;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .build();
-        AdmobVTN.getInstance().initRewardWithConfig(this, adRewardConfig);
+        RemoteAdmob.getInstance().initRewardWithConfig(this, adRewardConfig);
 
 
         BannerPlugin.Config config = new BannerPlugin.Config();
@@ -83,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         //BannerPlugin bannerPlugin = new BannerPlugin(this,findViewById(R.id.banner),findViewById(R.id.shimmer),config);
         // Admob.getInstance().loadBannerPlugin(this, findViewById(R.id.banner), findViewById(R.id.shimmer), config);
         Admob.getInstance().loadCollapsibleBanner(this, getString(R.string.admod_banner_id_collapse), "bottom");
-        AdmobVTN.getInstance().loadInterWithKey(this, AdsConfig.key_ad_interstitial_id, true);
+        RemoteAdmob.getInstance().loadInterWithKey(this, AdsConfig.key_ad_interstitial_id, true);
         loadAdsNative();
 
 
@@ -112,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
                             public void onNextAction() {
                                 super.onNextAction();
                                 startActivity(new Intent(MainActivity.this, MainActivity3.class));
-                                AdmobVTN.getInstance().loadInterWithKey(MainActivity.this, AdsConfig.key_ad_interstitial_id, false);
+                                RemoteAdmob.getInstance().loadInterWithKey(MainActivity.this, AdsConfig.key_ad_interstitial_id, false);
                             }
                         })
                         .build();
-                AdmobVTN.getInstance().showInterWithConfig(MainActivity.this, adInterConfig);
+                RemoteAdmob.getInstance().showInterWithConfig(MainActivity.this, adInterConfig);
 
             }
         });
@@ -125,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnClickReward).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AdmobVTN.getInstance().showRewardWithConfig(MainActivity.this, adRewardConfig);
+                RemoteAdmob.getInstance().showRewardWithConfig(MainActivity.this, adRewardConfig);
             }
         });
 

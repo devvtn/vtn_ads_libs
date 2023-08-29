@@ -23,7 +23,6 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,8 +31,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
-import com.appsflyer.AppsFlyerLib;
-import com.appsflyer.adrevenue.AppsFlyerAdRevenue;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdError;
@@ -61,10 +58,8 @@ import com.vtn.ads.R;
 import com.vtn.ads.banner.BannerPlugin;
 import com.vtn.ads.billing.AppPurchase;
 import com.vtn.ads.callback.AdCallback;
-import com.vtn.ads.callback.AdCallback;
 import com.vtn.ads.callback.NativeCallback;
 import com.vtn.ads.callback.RewardCallback;
-import com.vtn.ads.config.AdSplashConfig;
 import com.vtn.ads.dialog.LoadingAdsDialog;
 
 import java.security.MessageDigest;

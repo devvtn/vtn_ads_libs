@@ -11,7 +11,7 @@ import com.vtn.ads.callback.BillingListener;
 import com.vtn.ads.callback.AdCallback;
 import com.vtn.ads.config.AdSplashConfig;
 import com.vtn.ads.adstype.AdSplashType;
-import com.vtn.ads.util.AdmobVTN;
+import com.vtn.ads.util.RemoteAdmob;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,13 +66,13 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        AdmobVTN.getInstance().dismissLoadingDialog();
+        RemoteAdmob.getInstance().dismissLoadingDialog();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AdmobVTN.getInstance().dismissLoadingDialog();
+        RemoteAdmob.getInstance().dismissLoadingDialog();
     }
 
     private void initBilling() {
@@ -86,7 +86,7 @@ public class Splash extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        AdmobVTN.getInstance().onCheckShowSplashWhenFailWithConfig(this, adSplashConfig, 1000);
+        RemoteAdmob.getInstance().onCheckShowSplashWhenFailWithConfig(this, adSplashConfig, 1000);
     }
 
     public void ShowSplashInter() {
@@ -96,7 +96,7 @@ public class Splash extends AppCompatActivity {
                 .setTimeDelay(3000)
                 .setCallback(adCallback)
                 .build();
-        AdmobVTN.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
+        RemoteAdmob.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
 
     }
 
@@ -107,7 +107,7 @@ public class Splash extends AppCompatActivity {
                 .setTimeDelay(3000)
                 .setCallback(adCallback)
                 .build();
-        AdmobVTN.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
+        RemoteAdmob.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
 
     }
 
@@ -120,7 +120,7 @@ public class Splash extends AppCompatActivity {
                 .setShowAdIfReady(true)
                 .setCallback(adCallback)
                 .build();
-        AdmobVTN.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
+        RemoteAdmob.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
 
     }
 
@@ -131,7 +131,7 @@ public class Splash extends AppCompatActivity {
                 .setShowAdIfReady(true)
                 .setCallback(adCallback)
                 .build();
-        AdmobVTN.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
+        RemoteAdmob.getInstance().loadAdSplashWithConfig(this, adSplashConfig);
 
     }
 }

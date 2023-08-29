@@ -14,7 +14,7 @@ import com.vtn.ads.adstype.AdBannerType;
 import com.vtn.ads.util.Admob;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.vtn.ads.util.AdmobVTN;
+import com.vtn.ads.util.RemoteAdmob;
 
 public class Fragment1 extends Fragment {
     Button btnclick;
@@ -34,7 +34,7 @@ public class Fragment1 extends Fragment {
                 .setBannerType(AdBannerType.BANNER)
                 .setView(view.findViewById(R.id.include))
                 .build();
-        AdmobVTN.getInstance().loadBannerWithConfig(requireActivity(),adBannerConfig);
+        RemoteAdmob.getInstance().loadBannerWithConfig(requireActivity(),adBannerConfig);
     }
 
     @Override
