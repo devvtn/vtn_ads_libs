@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
         config.setConfigKey("test_banner_flugin");
 
 
-        //BannerPlugin bannerPlugin = new BannerPlugin(this,findViewById(R.id.banner),findViewById(R.id.shimmer),config);
-        // Admob.getInstance().loadBannerPlugin(this, findViewById(R.id.banner), findViewById(R.id.shimmer), config);
         Admob.getInstance().loadCollapsibleBanner(this, getString(R.string.admod_banner_id_collapse), "bottom");
         RemoteAdmob.getInstance().loadInterWithKey(this, AdsConfig.key_ad_interstitial_id, true);
         loadAdsNative();
@@ -103,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btnClickInter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 adInterConfig = new AdInterConfig.Builder()
+                adInterConfig = new AdInterConfig.Builder()
                         .setKey(AdsConfig.key_ad_interstitial_id)
                         .setCallback(new AdCallback() {
                             @Override
