@@ -9,9 +9,9 @@ import android.widget.FrameLayout;
 import androidx.fragment.app.Fragment;
 
 import com.vtn.ads.callback.NativeCallback;
-import com.vtn.ads.util.Admob;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
+import com.vtn.ads.util.Admob;
 
 public class Fragment2 extends Fragment {
     FrameLayout fr_ads1;

@@ -1,6 +1,7 @@
 package com.vtn.ads.banner;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Gravity;

@@ -1,16 +1,16 @@
 package com.vtnadslibrary;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 
-import com.vtn.ads.billing.AppPurchase;
-import com.vtn.ads.callback.BillingListener;
-import com.vtn.ads.callback.AdCallback;
-import com.vtn.ads.config.AdSplashConfig;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.vtn.ads.adstype.AdSplashType;
+import com.vtn.ads.billing.AppPurchaseImpl;
+import com.vtn.ads.callback.AdCallback;
+import com.vtn.ads.callback.BillingListener;
+import com.vtn.ads.config.AdSplashConfig;
 import com.vtn.ads.util.RemoteAdmob;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class Splash extends AppCompatActivity {
 
 
         // Admob
-        AppPurchase.getInstance().setBillingListener(new BillingListener() {
+        AppPurchaseImpl.getInstance().setBillingListener(new BillingListener() {
             @Override
             public void onInitBillingListener(int code) {
                 runOnUiThread(new Runnable() {
@@ -54,7 +54,7 @@ public class Splash extends AppCompatActivity {
                         //ShowSplashInter();
                         //ShowSplashInterFloor();
                         //ShowSplashOpen();
-                         ShowSplashOpenFloor();
+                        ShowSplashOpenFloor();
                     }
                 });
             }
@@ -79,7 +79,7 @@ public class Splash extends AppCompatActivity {
         List<String> listINAPId = new ArrayList<>();
         listINAPId.add(PRODUCT_ID_MONTH);
         List<String> listSubsId = new ArrayList<>();
-        AppPurchase.getInstance().initBilling(getApplication(), listINAPId, listSubsId);
+        AppPurchaseImpl.getInstance().initBilling(getApplication(), listINAPId, listSubsId);
 
     }
 

@@ -2,10 +2,10 @@ package com.vtnadslibrary;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
-import com.vtn.ads.util.RemoteAdmob;
+import com.vtn.ads.util.AdsApplication;
 import com.vtn.ads.util.AppFlyer;
 import com.vtn.ads.util.AppOpenManager;
-import com.vtn.ads.util.AdsApplication;
+import com.vtn.ads.util.RemoteAdmob;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,30 +62,30 @@ public class MyApplication extends AdsApplication {
         mFirebaseRemoteConfig.fetchAndActivate();
     }
 
-    public void initIDADS(){
+    public void initIDADS() {
         RemoteAdmob.getInstance().initListID();
-        RemoteAdmob.getInstance().insertIdAds(AdsConfig.key_ad_interstitial_id,getString(R.string.ad_interstitial_id));
-        RemoteAdmob.getInstance().insertIdAds(AdsConfig.key_ad_banner_id,getString(R.string.ad_banner_id));
-        RemoteAdmob.getInstance().insertIdAds(AdsConfig.key_ad_banner_id_collapse,getString(R.string.ad_banner_id_collapse));
-        RemoteAdmob.getInstance().insertIdAds(AdsConfig.key_ad_native_id,getString(R.string.ad_native_id));
-        RemoteAdmob.getInstance().insertIdAds(AdsConfig.key_ad_app_open_ad_id,getString(R.string.ad_app_open_ad_id));
-        RemoteAdmob.getInstance().insertIdAds(AdsConfig.key_ad_app_reward_id,getString(R.string.ad_app_reward_id));
+        RemoteAdmob.getInstance().addIdAds(AdsConfig.key_ad_interstitial_id, getString(R.string.ad_interstitial_id));
+        RemoteAdmob.getInstance().addIdAds(AdsConfig.key_ad_banner_id, getString(R.string.ad_banner_id));
+        RemoteAdmob.getInstance().addIdAds(AdsConfig.key_ad_banner_id_collapse, getString(R.string.ad_banner_id_collapse));
+        RemoteAdmob.getInstance().addIdAds(AdsConfig.key_ad_native_id, getString(R.string.ad_native_id));
+        RemoteAdmob.getInstance().addIdAds(AdsConfig.key_ad_app_open_ad_id, getString(R.string.ad_app_open_ad_id));
+        RemoteAdmob.getInstance().addIdAds(AdsConfig.key_ad_app_reward_id, getString(R.string.ad_app_reward_id));
 
 
         List<String> listIDSplash = new ArrayList<>();
         listIDSplash.add(getString(R.string.ad_interstitial_id));
         listIDSplash.add(getString(R.string.ad_interstitial_id));
-        RemoteAdmob.getInstance().insertListIdAds(AdsConfig.key_ad_splash_floor_id,listIDSplash);
+        RemoteAdmob.getInstance().addListIdAds(AdsConfig.key_ad_splash_floor_id, listIDSplash);
 
         List<String> listIDSplashOpen = new ArrayList<>();
         listIDSplashOpen.add(getString(R.string.ad_app_open_ad_id));
         listIDSplashOpen.add(getString(R.string.ad_app_open_ad_id));
-        RemoteAdmob.getInstance().insertListIdAds(AdsConfig.key_ad_open_floor_id,listIDSplashOpen);
+        RemoteAdmob.getInstance().addListIdAds(AdsConfig.key_ad_open_floor_id, listIDSplashOpen);
 
         List<String> listIDNative = new ArrayList<>();
         listIDNative.add(getString(R.string.ad_native_id));
         listIDNative.add(getString(R.string.ad_native_id));
-        RemoteAdmob.getInstance().insertListIdAds(AdsConfig.key_ad_native_floor_id,listIDNative);
+        RemoteAdmob.getInstance().addListIdAds(AdsConfig.key_ad_native_floor_id, listIDNative);
     }
 
 

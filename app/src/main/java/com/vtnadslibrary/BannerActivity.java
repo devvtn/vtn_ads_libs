@@ -9,8 +9,8 @@ import com.vtn.ads.adstype.AdNativeType;
 import com.vtn.ads.config.AdBannerConfig;
 import com.vtn.ads.adstype.AdBannerType;
 import com.vtn.ads.config.AdNativeConfig;
-import com.vtn.ads.util.RemoteAdmob;
 import com.vtn.ads.util.BannerGravity;
+import com.vtn.ads.util.RemoteAdmob;
 
 public class BannerActivity extends AppCompatActivity {
 

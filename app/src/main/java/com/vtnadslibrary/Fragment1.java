@@ -8,12 +8,12 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
-import com.vtn.ads.callback.AdCallback;
-import com.vtn.ads.config.AdBannerConfig;
-import com.vtn.ads.adstype.AdBannerType;
-import com.vtn.ads.util.Admob;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.vtn.ads.adstype.AdBannerType;
+import com.vtn.ads.callback.AdCallback;
+import com.vtn.ads.config.AdBannerConfig;
+import com.vtn.ads.util.Admob;
 import com.vtn.ads.util.RemoteAdmob;
 
 public class Fragment1 extends Fragment {

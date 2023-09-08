@@ -1,8 +1,6 @@
 package com.vtn.ads.util;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -31,7 +29,7 @@ public class Helper {
      *
      * @param context
      */
-    public static void setupAdmodData(Context context) {
+    public static void setupAdmobData(Context context) {
         if (isFirstOpenApp(context)) {
             context.getSharedPreferences(FILE_SETTING_ADMOD, Context.MODE_PRIVATE).edit().putLong(KEY_FIRST_TIME, System.currentTimeMillis()).apply();
             context.getSharedPreferences(FILE_SETTING, Context.MODE_PRIVATE).edit().putBoolean(IS_FIRST_OPEN, true).apply();
@@ -43,12 +41,12 @@ public class Helper {
        qua q ngày reset lại data
         */
         if (rs >= 24 * 60 * 60 * 1000) {
-            resetAdmodData(context);
+            resetAdmobData(context);
         }
     }
 
 
-    private static void resetAdmodData(Context context) {
+    private static void resetAdmobData(Context context) {
         context.getSharedPreferences(FILE_SETTING_ADMOD, Context.MODE_PRIVATE).edit().clear().apply();
         context.getSharedPreferences(FILE_SETTING_ADMOD, Context.MODE_PRIVATE).edit().putLong(KEY_FIRST_TIME, System.currentTimeMillis()).apply();
     }

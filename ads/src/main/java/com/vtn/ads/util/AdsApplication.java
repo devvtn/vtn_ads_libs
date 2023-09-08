@@ -11,12 +11,12 @@ public abstract class AdsApplication extends Application {
         super.onCreate();
         AppUtil.BUILD_DEBUG = buildDebug();
         Log.i("Application", " run debug: " + AppUtil.BUILD_DEBUG);
-        Admob.getInstance().initAdmod(this, getListTestDeviceId());
+        Admob.getInstance().initAdmob(this, getListTestDeviceId());
         if (enableAdsResume()) {
-            AppOpenManager.getInstance().init(this, getResumeAdId());
+            AppOpenManagerImpl.getInstance().init(this, getResumeAdId());
         }
         if (enableAdjustTracking()) {
-            Adjust.getInstance().init(this, getAdjustToken());
+            AdjustImpl.getInstance().init(this, getAdjustToken());
         }
 
     }

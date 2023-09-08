@@ -1,9 +1,5 @@
 package com.vtnadslibrary;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.res.ResourcesCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,22 +9,26 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.res.ResourcesCompat;
+
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdView;
+import com.google.android.gms.ads.rewarded.RewardItem;
 import com.vtn.ads.banner.BannerPlugin;
 import com.vtn.ads.billing.AppPurchase;
+import com.vtn.ads.callback.AdCallback;
 import com.vtn.ads.callback.IClickBtn;
 import com.vtn.ads.callback.NativeCallback;
-import com.vtn.ads.callback.PurchaseListioner;
+import com.vtn.ads.callback.PurchaseListener;
 import com.vtn.ads.callback.RewardCallback;
-import com.vtn.ads.callback.AdCallback;
 import com.vtn.ads.config.AdInterConfig;
 import com.vtn.ads.config.AdRewardConfig;
 import com.vtn.ads.rate.RateBuilder;
 import com.vtn.ads.util.Admob;
 import com.vtn.ads.util.RemoteAdmob;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.nativead.NativeAd;
-import com.google.android.gms.ads.nativead.NativeAdView;
-import com.google.android.gms.ads.rewarded.RewardItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        AppPurchase.getInstance().setPurchaseListioner(new PurchaseListioner() {
+        AppPurchase.getInstance().setPurchaseListener(new PurchaseListener() {
             @Override
             public void onProductPurchased(String productId, String transactionDetails) {
                 Toast.makeText(MainActivity.this, "Purchase success", Toast.LENGTH_SHORT).show();
