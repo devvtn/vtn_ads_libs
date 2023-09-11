@@ -16,7 +16,7 @@ public class MyApplication extends AdsApplication {
         super.onCreate();
         AppOpenManager.getInstance().disableAppResumeWithActivity(Splash.class);
         initRemoteConfig();
-        AppFlyer.getInstance().initAppFlyer(this, "", true);
+//        AppFlyer.getInstance().initAppFlyer(this, "", true);
         initIDADS();
 
     }

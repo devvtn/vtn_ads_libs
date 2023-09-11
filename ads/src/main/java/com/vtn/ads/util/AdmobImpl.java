@@ -908,7 +908,6 @@ class AdmobImpl extends Admob {
             NativeCallback callback1 = new NativeCallback() {
                 @Override
                 public void onNativeAdLoaded(NativeAd nativeAd) {
-                    super.onNativeAdLoaded(nativeAd);
                     callback.onNativeAdLoaded(nativeAd);
                     nativeAd.setOnPaidEventListener(adValue -> {
                         Log.d(TAG, "OnPaidEvent getInterstitalAds:" + adValue.getValueMicros());

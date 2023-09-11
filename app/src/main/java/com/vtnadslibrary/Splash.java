@@ -7,7 +7,7 @@ import android.provider.Settings;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vtn.ads.adstype.AdSplashType;
-import com.vtn.ads.billing.AppPurchaseImpl;
+import com.vtn.ads.billing.AppPurchase;
 import com.vtn.ads.callback.AdCallback;
 import com.vtn.ads.callback.BillingListener;
 import com.vtn.ads.config.AdSplashConfig;
@@ -45,7 +45,7 @@ public class Splash extends AppCompatActivity {
 
 
         // Admob
-        AppPurchaseImpl.getInstance().setBillingListener(new BillingListener() {
+        AppPurchase.getInstance().setBillingListener(new BillingListener() {
             @Override
             public void onInitBillingListener(int code) {
                 runOnUiThread(new Runnable() {
@@ -79,7 +79,7 @@ public class Splash extends AppCompatActivity {
         List<String> listINAPId = new ArrayList<>();
         listINAPId.add(PRODUCT_ID_MONTH);
         List<String> listSubsId = new ArrayList<>();
-        AppPurchaseImpl.getInstance().initBilling(getApplication(), listINAPId, listSubsId);
+        AppPurchase.getInstance().initBilling(getApplication(), listINAPId, listSubsId);
 
     }
 

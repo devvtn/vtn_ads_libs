@@ -61,6 +61,7 @@
 -keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
 
 -dontwarn com.appsflyer.AFKeystoreWrapper
+-keep class com.appsflyer.**
 
 -keep class com.vtn.ads.util.Admob {public  *;}
 -keep class com.vtn.ads.util.RemoteAdmob {public  *;}
@@ -69,3 +70,11 @@
 -keep class com.vtn.ads.util.CommonFirebase {public  *;}
 -keep class com.vtn.ads.util.BannerGravity {public  *;}
 -keep class com.vtn.ads.billing.AppPurchase {public  *;}
+-keep class com.vtn.ads.util.AdsApplication {public  *;}
+-keep class com.vtn.ads.util.AdsMultiDexApplication {public  *;}
+-keep class com.vtn.ads.util.AppOpenManager {public  *;}
+-keep class com.vtn.ads.rate.** {public  *;}
+-keep class com.vtn.ads.config.** {public *;}
+-keep class com.vtn.ads.adstype.** {public *;}
+-keep class com.vtn.ads.callback.** {public *;}
+-keep class com.vtn.ads.banner.** {public *;}
