@@ -27,11 +27,6 @@ public class MyApplication extends AdsApplication {
     }
 
     @Override
-    public boolean enableAdjustTracking() {
-        return false;
-    }
-
-    @Override
     public List<String> getListTestDeviceId() {
         return null;
     }
@@ -42,21 +37,15 @@ public class MyApplication extends AdsApplication {
     }
 
     @Override
-    public String getAdjustToken() {
-        return null;
-    }
-
-    @Override
     public Boolean buildDebug() {
         return true;
     }
 
-
     public static void initRemoteConfig() {
         FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setMinimumFetchIntervalInSeconds(5)
-                .build();
+            .setMinimumFetchIntervalInSeconds(5)
+            .build();
         mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
         mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
         mFirebaseRemoteConfig.fetchAndActivate();

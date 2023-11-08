@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.gms.ads.nativead.NativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <RelativeLayout
-        android:background="@drawable/border_dialog"
         android:id="@+id/ad_unit_content"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/border_dialog"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="8dip">
@@ -29,14 +29,14 @@
                     android:src="@color/colorPrimary" />
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/ad_headline"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="2"
@@ -44,7 +44,7 @@
                         android:textSize="11sp" />
 
                     <LinearLayout
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
@@ -74,7 +74,7 @@
 
             <com.google.android.gms.ads.nativead.MediaView
                 android:id="@+id/ad_media"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
@@ -82,11 +82,11 @@
                 android:minHeight="120dp" />
 
             <Button
-                android:background="@drawable/border_native_main"
                 android:id="@+id/ad_call_to_action"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
+                android:background="@drawable/border_native_main"
                 android:gravity="center"
                 android:text="Cài Đặt"
                 android:textColor="@color/colorWhite"

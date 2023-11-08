@@ -56,7 +56,7 @@ class AppFlyerImpl extends AppFlyer {
             customParams.put(Scheme.AD_UNIT, adId);
             customParams.put(Scheme.AD_TYPE, adType);
             AppsFlyerAdRevenue.logAdRevenue(
-                    "Admod",
+                    "Admob",
                     MediationNetwork.googleadmob,
                     Currency.getInstance(Locale.US),
                     (double) adValue.getValueMicros() / 1000000.0,
