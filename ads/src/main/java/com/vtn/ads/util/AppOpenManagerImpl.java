@@ -643,7 +643,7 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
         }
 
         Log.d(TAG, "onStart: show resume ads :" + currentActivity.getClass().getName());
-        showAdIfAvailable(false);
+        loadAdResume();
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
@@ -666,6 +666,108 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
             }
         }
     }
+
+    public void loadAdResume() {
+        try {
+            dismissDialogLoading();
+            dialog = new ResumeLoadingDialog(currentActivity);
+            try {
+                dialog.show();
+            } catch (Exception e) {
+                if (fullScreenContentCallback != null && enableScreenContentCallback) {
+                    fullScreenContentCallback.onAdDismissedFullScreenContent();
+
+                }
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        loadCallback =
+                new AppOpenAd.AppOpenAdLoadCallback() {
+
+                    @Override
+                    public void onAdLoaded(AppOpenAd ad) {
+                        appResumeAd = ad;
+                        appResumeAd.setOnPaidEventListener(adValue -> {
+                        });
+                        appResumeLoadTime = (new Date()).getTime();
+                        showResumeAdsNew();
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        fullScreenContentCallbackNew.onAdFailedToShowFullScreenContent(loadAdError);
+                        dismissDialogLoading();
+                    }
+
+
+                };
+        AdRequest request = getAdRequest();
+        AppOpenAd.load(
+                myApplication,  appResumeAdId, request,
+                AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT, loadCallback);
+    }
+
+
+
+    private void showResumeAdsNew() {
+        if (appResumeAd == null || currentActivity == null) {
+            return;
+        }
+        if (ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+            if (appResumeAd != null) {
+                appResumeAd.setFullScreenContentCallback(fullScreenContentCallbackNew);
+                isShowingAd = true;
+                appResumeAd.show(currentActivity);
+            }
+
+        }
+    }
+
+    public FullScreenContentCallback fullScreenContentCallbackNew = new FullScreenContentCallback() {
+        @Override
+        public void onAdDismissedFullScreenContent() {
+            // Set the reference to null so isAdAvailable() returns false.
+            Log.e(TAG, "onAdDismissedFullScreenContent: ");
+            isShowingAd = false;
+            dismissDialogLoading();
+        }
+
+        @Override
+        public void onAdFailedToShowFullScreenContent(AdError adError) {
+            Log.e(TAG, "onAdFailedToShowFullScreenContent: " + adError.getMessage());
+            isShowingAd = false;
+            dismissDialogLoading();
+        }
+
+        @Override
+        public void onAdShowedFullScreenContent() {
+            Log.e(TAG, "onAdShowedFullScreenContent: ");
+        }
+
+        @Override
+        public void onAdClicked() {
+            super.onAdClicked();
+            if (currentActivity != null) {
+                FirebaseUtil.logClickAdsEvent(currentActivity, appResumeAdId);
+                if (fullScreenContentCallback != null) {
+                    fullScreenContentCallback.onAdClicked();
+                }
+            }
+        }
+
+        @Override
+        public void onAdImpression() {
+            super.onAdImpression();
+            if (currentActivity != null) {
+                if (fullScreenContentCallback != null) {
+                    fullScreenContentCallback.onAdImpression();
+                }
+            }
+        }
+    };
 
     @Override
     public void showAppOpenSplash(Context context, AdCallback adCallback) {
