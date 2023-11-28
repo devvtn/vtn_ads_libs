@@ -38,6 +38,9 @@ public class AdCallback {
     public void onInterstitialLoad(@Nullable InterstitialAd interstitialAd) {
 
     }
+    public void onInterstitialLoadFaild() {
+
+    }
 
     public void onAdClicked() {
     }

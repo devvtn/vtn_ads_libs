@@ -15,15 +15,29 @@ public class MyApplication extends AdsApplication {
     public void onCreate() {
         super.onCreate();
         AppOpenManager.getInstance().disableAppResumeWithActivity(Splash.class);
-        initRemoteConfig();
+
 //        AppFlyer.getInstance().initAppFlyer(this, "", true);
-        initIDADS();
 
     }
 
     @Override
     public boolean enableAdsResume() {
         return true;
+    }
+
+    @Override
+    public boolean enableRemoteAdsResume() {
+        return true;
+    }
+
+    @Override
+    public String getKeyRemoteAdsResume() {
+        return AdsConfig.key_ad_app_resume_id;
+    }
+
+    @Override
+    public int getDefaultsAsyncFirebase() {
+        return R.xml.remote_config_defaults;
     }
 
     @Override
@@ -41,41 +55,8 @@ public class MyApplication extends AdsApplication {
         return true;
     }
 
-    public static void initRemoteConfig() {
-        FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-            .setMinimumFetchIntervalInSeconds(5)
-            .build();
-        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
-        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
-        mFirebaseRemoteConfig.fetchAndActivate();
-    }
-
-    public void initIDADS() {
-        RemoteAdmob.getInstance().initListID();
-        RemoteAdmob.getInstance().addIdAds(AdsConfig.key_ad_interstitial_id, getString(R.string.ad_interstitial_id));
-        RemoteAdmob.getInstance().addIdAds(AdsConfig.key_ad_banner_id, getString(R.string.ad_banner_id));
-        RemoteAdmob.getInstance().addIdAds(AdsConfig.key_ad_banner_id_collapse, getString(R.string.ad_banner_id_collapse));
-        RemoteAdmob.getInstance().addIdAds(AdsConfig.key_ad_native_id, getString(R.string.ad_native_id));
-        RemoteAdmob.getInstance().addIdAds(AdsConfig.key_ad_app_open_ad_id, getString(R.string.ad_app_open_ad_id));
-        RemoteAdmob.getInstance().addIdAds(AdsConfig.key_ad_app_reward_id, getString(R.string.ad_app_reward_id));
 
 
-        List<String> listIDSplash = new ArrayList<>();
-        listIDSplash.add(getString(R.string.ad_interstitial_id));
-        listIDSplash.add(getString(R.string.ad_interstitial_id));
-        RemoteAdmob.getInstance().addListIdAds(AdsConfig.key_ad_splash_floor_id, listIDSplash);
-
-        List<String> listIDSplashOpen = new ArrayList<>();
-        listIDSplashOpen.add(getString(R.string.ad_app_open_ad_id));
-        listIDSplashOpen.add(getString(R.string.ad_app_open_ad_id));
-        RemoteAdmob.getInstance().addListIdAds(AdsConfig.key_ad_open_floor_id, listIDSplashOpen);
-
-        List<String> listIDNative = new ArrayList<>();
-        listIDNative.add(getString(R.string.ad_native_id));
-        listIDNative.add(getString(R.string.ad_native_id));
-        RemoteAdmob.getInstance().addListIdAds(AdsConfig.key_ad_native_floor_id, listIDNative);
-    }
 
 
 }

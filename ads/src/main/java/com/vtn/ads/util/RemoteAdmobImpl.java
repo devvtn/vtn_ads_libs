@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.vtn.ads.adstype.AdSplashType;
 import com.vtn.ads.callback.AdCallback;
 import com.vtn.ads.callback.NativeCallback;
@@ -37,81 +38,23 @@ class RemoteAdmobImpl extends RemoteAdmob {
         return INSTANCE;
     }
 
-    public List<AdmobUnit> listIDAds;
 
-    @Override
-    public void initListID() {
-        if (listIDAds == null) {
-            listIDAds = new ArrayList<>();
-        } else {
-            listIDAds.clear();
-        }
-    }
-
-    @Override
-    public void addIdAds(String key, String id) {
-        AdmobUnit admobUnit = new AdmobUnit();
-        admobUnit.setKeyAds(key);
-        admobUnit.setIdAds(id);
-        if (listIDAds != null) {
-            listIDAds.add(admobUnit);
-        }
-    }
-
-    @Override
-    public void addListIdAds(String key, List<String> listId) {
-        AdmobUnit admobUnit = new AdmobUnit();
-        admobUnit.setKeyAds(key);
-        admobUnit.setListIdAds(listId);
-        if (listIDAds != null) {
-            listIDAds.add(admobUnit);
-        }
-    }
 
     @Override
     public String getIdAdsWithKey(String key) {
-        String id = "";
-        if (listIDAds != null && listIDAds.size() > 0) {
-            for (int i = 0; i < listIDAds.size(); i++) {
-                AdmobUnit admobUnit = listIDAds.get(i);
-                if (key.equals(admobUnit.keyAds)) {
-                    id = admobUnit.idAds;
-                    break;
-                }
-            }
-        }
-        return id;
+        return FirebaseRemoteConfig.getInstance().getString(key);
     }
 
     @Override
-    public List<String> getListIdAdsWithKey(String key) {
+    public List<String> getListIdAdsWithKey(String... keys) {
         List<String> listID = new ArrayList<>();
-        if (listIDAds != null && listIDAds.size() > 0) {
-            for (int i = 0; i < listIDAds.size(); i++) {
-                AdmobUnit admobUnit = listIDAds.get(i);
-                if (key.equals(admobUnit.keyAds)) {
-                    listID.addAll(admobUnit.getListIdAds());
-                    break;
-                }
-            }
+        for (String key : keys){
+            listID.add(FirebaseRemoteConfig.getInstance().getString(key));
         }
         return listID;
     }
 
-    @Override
-    public int getIndexAd(String key) {
-        int index = -1;
-        if (listIDAds != null && listIDAds.size() > 0) {
-            for (int i = 0; i < listIDAds.size(); i++) {
-                AdmobUnit admobUnit = listIDAds.get(i);
-                if (key.equals(admobUnit.keyAds)) {
-                    index = i;
-                    break;
-                }
-            }
-        }
-        return index;
-    }
+
 
     //splash
     @Override
@@ -199,7 +142,7 @@ class RemoteAdmobImpl extends RemoteAdmob {
         if (Helper.haveNetworkConnection(context)) {
             switch (adNativeConfig.adNativeType) {
                 case NATIVE: {
-                    Admob.getInstance().loadNativeAd(context, getIdAdsWithKey(adNativeConfig.key), new NativeCallback() {
+                    Admob.getInstance().loadNativeAd(context, getIdAdsWithKey(adNativeConfig.key[0]), new NativeCallback() {
                         @Override
                         public void onNativeAdLoaded(NativeAd nativeAd) {
                             if (nativeAd != null) {
@@ -208,6 +151,7 @@ class RemoteAdmobImpl extends RemoteAdmob {
                                     adNativeConfig.view.removeAllViews();
                                     adNativeConfig.view.addView(adView);
                                     Admob.getInstance().pushAdsToViewCustom(nativeAd, adView);
+
 
                                 }
                             } else {
@@ -282,41 +226,52 @@ class RemoteAdmobImpl extends RemoteAdmob {
         }
     }
 
-    //Inter
     @Override
-    public void loadInterWithKey(Context context, String key, boolean isOnCreate) {
-        int index = getIndexAd(key);
-        if (index != -1) {
-            if (isOnCreate) {
-                if (listIDAds.get(index).mInterstitialAd == null && Helper.haveNetworkConnection(context)) {
-                    Admob.getInstance().loadInterAds(context, listIDAds.get(index).idAds, new AdCallback() {
-                        @Override
-                        public void onInterstitialLoad(InterstitialAd interstitialAd) {
-                            super.onInterstitialLoad(interstitialAd);
-                            listIDAds.get(index).setmInterstitialAd(interstitialAd);
-                        }
-                    });
+    public void loadNativeWithConfigCallback(Context context, AdNativeConfig adNativeConfig, boolean isInvisible,NativeCallback nativeCallback) {
+        if (Helper.haveNetworkConnection(context)) {
+            switch (adNativeConfig.adNativeType) {
+                case NATIVE: {
+                    Admob.getInstance().loadNativeAd(context, getIdAdsWithKey(adNativeConfig.key[0]), nativeCallback);
+                    break;
                 }
-            } else {
-                if (Helper.haveNetworkConnection(context)) {
-                    Admob.getInstance().loadInterAds(context, listIDAds.get(index).idAds, new AdCallback() {
-                        @Override
-                        public void onInterstitialLoad(InterstitialAd interstitialAd) {
-                            super.onInterstitialLoad(interstitialAd);
-                            listIDAds.get(index).setmInterstitialAd(interstitialAd);
-                        }
-                    });
-                } else {
-                    listIDAds.get(index).setmInterstitialAd(null);
+                case NATIVE_FLOOR: {
+                    Admob.getInstance().loadNativeAdFloor(context, getListIdAdsWithKey(adNativeConfig.key), nativeCallback);
+                    break;
                 }
             }
+        } else {
+            if (adNativeConfig.view != null) {
+                if (isInvisible) {
+                    adNativeConfig.view.setVisibility(View.INVISIBLE);
+                } else {
+                    adNativeConfig.view.removeAllViews();
+                }
+            }
+        }
+    }
+
+    //Inter
+    @Override
+    public void loadInterWithKey(Context context, String key, AdCallback adCallback) {
+        if (Helper.haveNetworkConnection(context)) {
+            Admob.getInstance().loadInterAds(context, getIdAdsWithKey(key), adCallback);
+        } else {
+            adCallback.onInterstitialLoadFaild();
         }
     }
 
     @Override
     public void showInterWithConfig(Context context, AdInterConfig adInterConfig) {
         if (Helper.haveNetworkConnection(context)) {
-            Admob.getInstance().showInterAds(context, listIDAds.get(getIndexAd(adInterConfig.key)).mInterstitialAd, adInterConfig.callback);
+            if (adInterConfig.callback != null) {
+                if (adInterConfig.mInterstitialAd!=null){
+                    Admob.getInstance().showInterAds(context, adInterConfig.mInterstitialAd, adInterConfig.callback);
+                }else {
+                    adInterConfig.callback.onNextAction();
+                    adInterConfig.callback.onAdClosed();
+                }
+
+            }
         } else {
             if (adInterConfig.callback != null) {
                 adInterConfig.callback.onNextAction();

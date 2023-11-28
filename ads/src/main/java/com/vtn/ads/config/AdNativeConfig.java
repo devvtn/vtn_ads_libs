@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.vtn.ads.adstype.AdNativeType;
 
 public class AdNativeConfig {
-    public String key;
+    public String[] key;
     public AdNativeType adNativeType;
     public int layout;
     public ViewGroup view;
@@ -22,7 +22,7 @@ public class AdNativeConfig {
         return view;
     }
 
-    public String getKey() {
+    public String[] getKey() {
         return key;
     }
 
@@ -35,12 +35,12 @@ public class AdNativeConfig {
     }
 
     public static class Builder{
-        private String key;
+        private String[] key;
         private AdNativeType adNativeType;
         private int layout;
         private ViewGroup view;
 
-        public Builder setKey(String key){
+        public Builder setKey(String... key){
             this.key = key;
             return this;
         }

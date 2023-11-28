@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -79,7 +80,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         Admob.getInstance().loadCollapsibleBanner(this, getString(R.string.admod_banner_id_collapse), "bottom");
-        RemoteAdmob.getInstance().loadInterWithKey(this, AdsConfig.key_ad_interstitial_id, true);
+        RemoteAdmob.getInstance().loadInterWithKey(this, AdsConfig.key_ad_interstitial_id, new AdCallback(){
+            @Override
+            public void onInterstitialLoad(@Nullable InterstitialAd interstitialAd) {
+                super.onInterstitialLoad(interstitialAd);
+                mInterstitialAd = interstitialAd;
+            }
+
+        });
         loadAdsNative();
 
 
@@ -103,12 +111,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 adInterConfig = new AdInterConfig.Builder()
                         .setKey(AdsConfig.key_ad_interstitial_id)
+                        .setInterstitialAd(mInterstitialAd)
                         .setCallback(new AdCallback() {
                             @Override
                             public void onNextAction() {
                                 super.onNextAction();
                                 startActivity(new Intent(MainActivity.this, MainActivity3.class));
-                                RemoteAdmob.getInstance().loadInterWithKey(MainActivity.this, AdsConfig.key_ad_interstitial_id, false);
+                                RemoteAdmob.getInstance().loadInterWithKey(MainActivity.this, AdsConfig.key_ad_interstitial_id, new AdCallback(){
+                                    @Override
+                                    public void onInterstitialLoad(@Nullable InterstitialAd interstitialAd) {
+                                        super.onInterstitialLoad(interstitialAd);
+                                        mInterstitialAd = interstitialAd;
+                                    }
+                                });
                             }
                         })
                         .build();
@@ -197,6 +212,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAdFailedToLoad() {
                 native_ads.setVisibility(View.GONE);
+            }
+        });
+
+        findViewById(R.id.btnCheckRemote).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,RemoteActivity.class);
+                startActivity(intent);
             }
         });
     }

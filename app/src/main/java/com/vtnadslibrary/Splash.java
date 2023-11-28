@@ -51,10 +51,10 @@ public class Splash extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        //ShowSplashInter();
+                        ShowSplashInter();
                         //ShowSplashInterFloor();
                         //ShowSplashOpen();
-                        ShowSplashOpenFloor();
+                        //ShowSplashOpenFloor();
                     }
                 });
             }
