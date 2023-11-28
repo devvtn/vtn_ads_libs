@@ -14,6 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.nlbnAdsLibrary">
         <activity
+            android:name=".RemoteActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".RemoteActivity"
+            android:exported="false" />
+        <activity
             android:name=".BannerActivity"
             android:exported="false" />
         <activity android:name=".MainActivity3" />

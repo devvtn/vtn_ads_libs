@@ -5,6 +5,8 @@ import android.content.Context;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.vtn.ads.callback.AdCallback;
+import com.vtn.ads.callback.NativeCallback;
 import com.vtn.ads.config.AdBannerConfig;
 import com.vtn.ads.config.AdInterConfig;
 import com.vtn.ads.config.AdNativeConfig;
@@ -18,17 +20,9 @@ public abstract class RemoteAdmob {
         return RemoteAdmobImpl.getInstance();
     }
 
-    public abstract void initListID();
-
-    public abstract void addIdAds(String key, String id);
-
-    public abstract void addListIdAds(String key, List<String> listId);
-
     public abstract String getIdAdsWithKey(String key);
 
-    public abstract List<String> getListIdAdsWithKey(String key);
-
-    public abstract int getIndexAd(String key);
+    public abstract List<String> getListIdAdsWithKey(String... keys);
 
     public abstract void onCheckShowSplashWhenFailWithConfig(final AppCompatActivity activity, AdSplashConfig config, int timeDelay);
 
@@ -40,7 +34,9 @@ public abstract class RemoteAdmob {
 
     public abstract void loadNativeWithConfig(Context context, AdNativeConfig adNativeConfig, boolean isInvisible);
 
-    public abstract void loadInterWithKey(Context context, String key, boolean isOnCreate);
+    public abstract void loadNativeWithConfigCallback(Context context, AdNativeConfig adNativeConfig, boolean isInvisible, NativeCallback nativeCallback);
+
+    public abstract void loadInterWithKey(Context context, String key, AdCallback adCallback);
 
     public abstract void showInterWithConfig(Context context, AdInterConfig adInterConfig);
 
