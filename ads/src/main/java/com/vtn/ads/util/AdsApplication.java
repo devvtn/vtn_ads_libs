@@ -17,11 +17,11 @@ public abstract class AdsApplication extends Application {
         Admob.getInstance().initAdmob(this, getListTestDeviceId());
 
         initRemoteConfig(getDefaultsAsyncFirebase());
-        if (enableRemoteAdsResume()){
+        if (enableRemoteAdsResume()) {
             if (enableAdsResume()) {
                 AppOpenManager.getInstance().init(this, FirebaseRemoteConfig.getInstance().getString(getKeyRemoteAdsResume()));
             }
-        }else {
+        } else {
             if (enableAdsResume()) {
                 AppOpenManager.getInstance().init(this, getResumeAdId());
             }
@@ -35,17 +35,24 @@ public abstract class AdsApplication extends Application {
     public static void initRemoteConfig(int defaultAsync) {
         FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setMinimumFetchIntervalInSeconds(5)
-                .build();
+            .setMinimumFetchIntervalInSeconds(5)
+            .build();
         mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
         mFirebaseRemoteConfig.setDefaultsAsync(defaultAsync);
         mFirebaseRemoteConfig.fetchAndActivate();
     }
 
     public abstract boolean enableAdsResume();
-    public abstract boolean enableRemoteAdsResume();
 
-    public abstract String getKeyRemoteAdsResume();
+    protected boolean enableRemoteAdsResume() {
+        return false;
+    }
+
+
+    protected String getKeyRemoteAdsResume() {
+        return "";
+    }
+
     public abstract int getDefaultsAsyncFirebase();
 
     protected boolean enableAdjustTracking() {

@@ -49,6 +49,7 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
     private Application myApplication;
 
     private static boolean isShowingAd = false;
+    private boolean isShowingAdResume = false;
     private long appResumeLoadTime = 0;
     private long splashLoadTime = 0;
     private int splashTimeout = 0;
@@ -283,17 +284,6 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
     public void onActivityResumed(Activity activity) {
         currentActivity = activity;
         Log.d(TAG, "onActivityResumed: " + currentActivity);
-        if (splashActivity == null) {
-            if (!activity.getClass().getName().equals(AdActivity.class.getName())) {
-                Log.d(TAG, "onActivityResumed 1: with " + activity.getClass().getName());
-                fetchAd(false);
-            }
-        } else {
-            if (!activity.getClass().getName().equals(splashActivity.getName()) && !activity.getClass().getName().equals(AdActivity.class.getName())) {
-                Log.d(TAG, "onActivityResumed 2: with " + activity.getClass().getName());
-                fetchAd(false);
-            }
-        }
     }
 
     @Override
@@ -608,7 +598,7 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
     };
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    public void onResume() {
+    public void onStart() {
         if (!isAppResumeEnabled) {
             Log.d(TAG, "onResume: app resume is disabled");
             return;
@@ -641,6 +631,8 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
             loadAndShowSplashAds(adId);
             return;
         }
+
+        if (isShowingAdResume) return;
 
         Log.d(TAG, "onStart: show resume ads :" + currentActivity.getClass().getName());
         loadAdResume();
@@ -676,7 +668,6 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
             } catch (Exception e) {
                 if (fullScreenContentCallback != null && enableScreenContentCallback) {
                     fullScreenContentCallback.onAdDismissedFullScreenContent();
-
                 }
                 return;
             }
@@ -685,45 +676,41 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
         }
 
         loadCallback =
-                new AppOpenAd.AppOpenAdLoadCallback() {
+            new AppOpenAd.AppOpenAdLoadCallback() {
 
-                    @Override
-                    public void onAdLoaded(AppOpenAd ad) {
-                        appResumeAd = ad;
-                        appResumeAd.setOnPaidEventListener(adValue -> {
-                        });
-                        appResumeLoadTime = (new Date()).getTime();
-                        showResumeAdsNew();
-                    }
+                @Override
+                public void onAdLoaded(AppOpenAd ad) {
+                    appResumeAd = ad;
+                    appResumeAd.setOnPaidEventListener(adValue -> {
+                    });
+                    appResumeLoadTime = (new Date()).getTime();
+                    showResumeAdsNew();
+                }
 
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        fullScreenContentCallbackNew.onAdFailedToShowFullScreenContent(loadAdError);
-                        dismissDialogLoading();
-                    }
+                @Override
+                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                    fullScreenContentCallbackNew.onAdFailedToShowFullScreenContent(loadAdError);
+                    dismissDialogLoading();
+                }
 
 
-                };
+            };
         AdRequest request = getAdRequest();
         AppOpenAd.load(
-                myApplication,  appResumeAdId, request,
-                AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT, loadCallback);
+            myApplication, appResumeAdId, request,
+            AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT, loadCallback);
     }
-
 
 
     private void showResumeAdsNew() {
         if (appResumeAd == null || currentActivity == null) {
             return;
         }
-        if (ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-            if (appResumeAd != null) {
-                appResumeAd.setFullScreenContentCallback(fullScreenContentCallbackNew);
-                isShowingAd = true;
-                appResumeAd.show(currentActivity);
-            }
+        appResumeAd.setFullScreenContentCallback(fullScreenContentCallbackNew);
+        isShowingAd = true;
+        isShowingAdResume = true;
+        appResumeAd.show(currentActivity);
 
-        }
     }
 
     public FullScreenContentCallback fullScreenContentCallbackNew = new FullScreenContentCallback() {
@@ -732,6 +719,7 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
             // Set the reference to null so isAdAvailable() returns false.
             Log.e(TAG, "onAdDismissedFullScreenContent: ");
             isShowingAd = false;
+            isShowingAdResume = false;
             dismissDialogLoading();
         }
 
@@ -739,6 +727,7 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
         public void onAdFailedToShowFullScreenContent(AdError adError) {
             Log.e(TAG, "onAdFailedToShowFullScreenContent: " + adError.getMessage());
             isShowingAd = false;
+            isShowingAdResume = false;
             dismissDialogLoading();
         }
 
