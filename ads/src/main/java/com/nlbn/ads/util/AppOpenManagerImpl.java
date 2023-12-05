@@ -16,6 +16,7 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
+import com.google.android.gms.ads.AdActivity;
 import com.nlbn.ads.billing.AppPurchase;
 import com.nlbn.ads.callback.AdCallback;
 import com.nlbn.ads.dialog.LoadingAdsDialog;
@@ -299,7 +300,9 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        currentActivity = null;
+        if (!activity.getClass().getName().equals(AdActivity.class.getName())) {
+            currentActivity = null;
+        }
         Log.d(TAG, "onActivityDestroyed: null");
     }
 

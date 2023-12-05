@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
-
+import com.nlbn.ads.R;
 import java.util.List;
 
 public abstract class AdsApplication extends Application {
@@ -53,7 +53,9 @@ public abstract class AdsApplication extends Application {
         return "";
     }
 
-    public abstract int getDefaultsAsyncFirebase();
+    protected int getDefaultsAsyncFirebase() {
+        return R.xml.remote_config_defaults;
+    }
 
     protected boolean enableAdjustTracking() {
         return false;

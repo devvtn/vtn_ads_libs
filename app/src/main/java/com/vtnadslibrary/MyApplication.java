@@ -30,10 +30,6 @@ public class MyApplication extends AdsApplication {
         return AdsConfig.KEY_AD_APP_RESUME_ID;
     }
 
-    @Override
-    public int getDefaultsAsyncFirebase() {
-        return R.xml.remote_config_defaults;
-    }
 
     @Override
     public List<String> getListTestDeviceId() {
