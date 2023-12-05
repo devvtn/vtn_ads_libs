@@ -1,4 +1,5 @@
 ##VTNAdsLibrary
+
 ###*build.gradle() - Project
 
     allprojects {
@@ -123,12 +124,13 @@
     RemoteAdmob.getInstance().loadBannerWithConfig(this, adBannerConfig)
 
 ####-Ads Native
-val adNativeConfig = AdNativeConfig.Builder()
-.setKey(AdsConfig.key) //with native floor .setKey(AdsConfig.key_1, AdsConfig.key_2)
-.setNativeType(AdNativeType.NATIVE) //NATIVE, NATIVE_FLOOR
-.setLayout(R.layout.layout_native_language)
-.setView(findViewById(R.id.native_ads))
-.build()
+
+    val adNativeConfig = AdNativeConfig.Builder()
+        .setKey(AdsConfig.key) //with native floor .setKey(AdsConfig.key_1, AdsConfig.key_2)
+        .setNativeType(AdNativeType.NATIVE) //NATIVE, NATIVE_FLOOR
+        .setLayout(R.layout.layout_native_language)
+        .setView(findViewById(R.id.native_ads))
+        .build()
 
     RemoteAdmob.getInstance().loadNativeWithConfig(this,adNativeConfig,false) //false when ads Gone, True when ads Invisible
 
@@ -150,14 +152,14 @@ val adNativeConfig = AdNativeConfig.Builder()
                 }
             })
 ####-Ads Inter
-//load inter
-RemoteAdmob.getInstance()
-.loadInterWithKey(this, AdsConfig.key, object : AdCallback() {
-override fun onInterstitialLoad(interstitialAd: InterstitialAd?) {
-super.onInterstitialLoad(interstitialAd)
-mInterstitialAd = interstitialAd
-}
-})
+
+    //load inter
+    RemoteAdmob.getInstance().loadInterWithKey(this, AdsConfig.key, object : AdCallback() {
+    override fun onInterstitialLoad(interstitialAd: InterstitialAd?) {
+        super.onInterstitialLoad(interstitialAd)
+        mInterstitialAd = interstitialAd
+        }
+    })
 
     //show inter
     val adInterConfig = AdInterConfig.Builder()
@@ -175,7 +177,8 @@ mInterstitialAd = interstitialAd
     RemoteAdmob.getInstance().showInterWithConfig(this, adInterConfig)
 
 ####-Ads Reward
-var adRewardConfig: AdRewardConfig? = null
+
+    var adRewardConfig: AdRewardConfig? = null
 
     adRewardConfig = AdRewardConfig.Builder()
             .setKey(AdsConfig.key_ad_app_reward_id)
