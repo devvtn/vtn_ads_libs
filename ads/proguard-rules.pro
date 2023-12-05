@@ -70,9 +70,9 @@
 -keep class com.nlbn.ads.util.CommonFirebase {public  *;}
 -keep class com.nlbn.ads.util.BannerGravity {public  *;}
 -keep class com.nlbn.ads.billing.AppPurchase {public  *;}
--keep class com.nlbn.ads.util.AdsApplication {public  *;}
--keep class com.nlbn.ads.util.AdsMultiDexApplication {public  *;}
--keep class com.nlbn.ads.util.AppOpenManager {public  *;}
+-keep class com.nlbn.ads.util.AdsApplication {public protected  *;}
+-keep class com.nlbn.ads.util.AdsMultiDexApplication {public protected  *;}
+-keep class com.nlbn.ads.util.AppOpenManager {public protected  *;}
 -keep class com.nlbn.ads.rate.** {public  *;}
 -keep class com.nlbn.ads.config.** {public *;}
 -keep class com.nlbn.ads.adstype.** {public *;}
