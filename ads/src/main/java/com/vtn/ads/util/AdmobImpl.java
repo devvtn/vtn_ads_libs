@@ -941,26 +941,6 @@ class AdmobImpl extends Admob {
     @Override
     public void pushAdsToViewCustom(NativeAd nativeAd, NativeAdView adView) {
         adView.setMediaView(adView.findViewById(R.id.ad_media));
-        if (adView.getMediaView() != null) {
-            adView.getMediaView().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (context != null && BuildConfig.DEBUG) {
-                        float sizeMin = TypedValue.applyDimension(
-                                TypedValue.COMPLEX_UNIT_DIP,
-                                120,
-                                context.getResources().getDisplayMetrics()
-                        );
-                        Log.e(TAG, "Native sizeMin: " + sizeMin);
-                        Log.e(TAG, "Native w/h media : " + adView.getMediaView().getWidth() + "/" + adView.getMediaView().getHeight());
-                        if (adView.getMediaView().getWidth() < sizeMin || adView.getMediaView().getHeight() < sizeMin) {
-                            Toast.makeText(context, "Size media native not valid", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-            }, 1000);
-
-        }
         // Set other ad assets.
         adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
         adView.setBodyView(adView.findViewById(R.id.ad_body));
@@ -968,92 +948,49 @@ class AdmobImpl extends Admob {
         adView.setIconView(adView.findViewById(R.id.ad_app_icon));
         adView.setAdvertiserView(adView.findViewById(R.id.ad_advertiser));
 
-        // The headline is guaranteed to be in every UnifiedNativeAd.
-        try {
-            ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (adView.getHeadlineView() != null) {
+            if (nativeAd.getHeadline() != null) {
+                adView.getHeadlineView().setVisibility(View.VISIBLE);
+                ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
+            } else {
+                adView.getHeadlineView().setVisibility(View.INVISIBLE);
+            }
         }
-
-        // These assets aren't guaranteed to be in every UnifiedNativeAd, so it's important to
-        // check before trying to display them.
-        try {
+        if (adView.getBodyView() != null) {
             if (nativeAd.getBody() == null) {
                 adView.getBodyView().setVisibility(View.INVISIBLE);
             } else {
                 adView.getBodyView().setVisibility(View.VISIBLE);
                 ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-        try {
+        if (adView.getCallToActionView() != null) {
             if (nativeAd.getCallToAction() == null) {
-                Objects.requireNonNull(adView.getCallToActionView()).setVisibility(View.INVISIBLE);
+                adView.getCallToActionView().setVisibility(View.INVISIBLE);
             } else {
-                Objects.requireNonNull(adView.getCallToActionView()).setVisibility(View.VISIBLE);
+                adView.getCallToActionView().setVisibility(View.VISIBLE);
                 ((TextView) adView.getCallToActionView()).setText(nativeAd.getCallToAction());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-        try {
+        if (adView.getIconView() != null) {
             if (nativeAd.getIcon() == null) {
-                Objects.requireNonNull(adView.getIconView()).setVisibility(View.GONE);
+                adView.getIconView().setVisibility(View.GONE);
             } else {
-                ((ImageView) adView.getIconView()).setImageDrawable(
-                        nativeAd.getIcon().getDrawable());
+                if (nativeAd.getIcon().getDrawable() != null)
+                    ((ImageView) adView.getIconView()).setImageDrawable(nativeAd.getIcon().getDrawable());
                 adView.getIconView().setVisibility(View.VISIBLE);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-        try {
-            if (nativeAd.getPrice() == null) {
-                Objects.requireNonNull(adView.getPriceView()).setVisibility(View.INVISIBLE);
-            } else {
-                Objects.requireNonNull(adView.getPriceView()).setVisibility(View.VISIBLE);
-                ((TextView) adView.getPriceView()).setText(nativeAd.getPrice());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            if (nativeAd.getStore() == null) {
-                Objects.requireNonNull(adView.getStoreView()).setVisibility(View.INVISIBLE);
-            } else {
-                Objects.requireNonNull(adView.getStoreView()).setVisibility(View.VISIBLE);
-                ((TextView) adView.getStoreView()).setText(nativeAd.getStore());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            if (nativeAd.getStarRating() == null) {
-                Objects.requireNonNull(adView.getStarRatingView()).setVisibility(View.INVISIBLE);
-            } else {
-                ((RatingBar) Objects.requireNonNull(adView.getStarRatingView()))
-                        .setRating(nativeAd.getStarRating().floatValue());
-                adView.getStarRatingView().setVisibility(View.VISIBLE);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
+        if (adView.getAdvertiserView() != null) {
             if (nativeAd.getAdvertiser() == null) {
                 adView.getAdvertiserView().setVisibility(View.INVISIBLE);
             } else {
                 ((TextView) adView.getAdvertiserView()).setText(nativeAd.getAdvertiser());
                 adView.getAdvertiserView().setVisibility(View.VISIBLE);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         adView.setNativeAd(nativeAd);
