@@ -8,7 +8,7 @@
         }
     }
 
-###*build.gradle() - App
+<h3>*build.gradle() - App</h3>
 
     dependencies {
         //ads
@@ -19,7 +19,7 @@
         implementation 'com.facebook.shimmer:shimmer:0.5.0'
     }
 
-####*In Manifest:
+<h3>*In Manifest:</h3>
 
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
     ...
@@ -27,18 +27,17 @@
         android:name="com.google.android.gms.ads.APPLICATION_ID"
         android:value="@string/app_id" />
 
-##Add ads with remote config
-####-Create key in file AdsConfig
-```public class AdsConfig {
+<h3>Add ads with remote config</h3>
+<h3>-Create key in file AdsConfig</h3>
 
-    public static String KEY_INTER_SPLASH = "inter_splash";
-    public static String KEY_AD_APP_RESUME_ID = "app_open_resume";
-    public static String KEY_NATIVE_INTRO_1 = "native_intro_1";
-    ....
-}
-```
+    public class AdsConfig {
+        public static String KEY_INTER_SPLASH = "inter_splash";
+        public static String KEY_AD_APP_RESUME_ID = "app_open_resume";
+        public static String KEY_NATIVE_INTRO_1 = "native_intro_1";
+        ....
+    }
 
-####-In Applicaton
+<h3>-In Applicaton</h3>
 
     class Application : AdsApplication() {
         override fun onCreate() {
@@ -74,7 +73,8 @@
         }
     }
 
-####Ads Splash
+<h3>Ads Splash</h3>
+
 
     var adCallback: AdCallback? = null
     var adSplashConfig: AdSplashConfig? = null
@@ -112,7 +112,7 @@
         RemoteAdmob.getInstance().onCheckShowSplashWhenFailWithConfig(this, adSplashConfig, 1000)
     }
 
-####-Ads banner
+<h3>Ads banner</h3>
 
     val adBannerConfig = AdBannerConfig.Builder()
             .setKey(AdsConfig.key)
@@ -122,7 +122,8 @@
             .build()
     RemoteAdmob.getInstance().loadBannerWithConfig(this, adBannerConfig)
 
-####-Ads Native
+
+<h3>Ads Native</h3>
 
     val adNativeConfig = AdNativeConfig.Builder()
         .setKey(AdsConfig.key) //with native floor .setKey(AdsConfig.key_1, AdsConfig.key_2)
@@ -150,7 +151,8 @@
                     adNativeConfig.view.removeAllViews()
                 }
             })
-####-Ads Inter
+
+<h3>Ads Inter</h3>
 
     //load inter
     RemoteAdmob.getInstance().loadInterWithKey(this, AdsConfig.key, object : AdCallback() {
@@ -175,7 +177,7 @@
 
     RemoteAdmob.getInstance().showInterWithConfig(this, adInterConfig)
 
-####-Ads Reward
+<h3>Ads Reward</h3>
 
     var adRewardConfig: AdRewardConfig? = null
 
