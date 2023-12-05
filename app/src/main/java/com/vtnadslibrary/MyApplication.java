@@ -1,13 +1,8 @@
 package com.vtnadslibrary;
 
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
-import com.vtn.ads.util.AdsApplication;
-import com.vtn.ads.util.AppFlyer;
-import com.vtn.ads.util.AppOpenManager;
-import com.vtn.ads.util.RemoteAdmob;
+import com.nlbn.ads.util.AdsApplication;
+import com.nlbn.ads.util.AppOpenManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyApplication extends AdsApplication {
@@ -32,7 +27,7 @@ public class MyApplication extends AdsApplication {
 
     @Override
     public String getKeyRemoteAdsResume() {
-        return AdsConfig.key_ad_app_resume_id;
+        return AdsConfig.KEY_AD_APP_RESUME_ID;
     }
 
     @Override

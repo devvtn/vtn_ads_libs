@@ -5,12 +5,12 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.vtn.ads.adstype.AdNativeType;
-import com.vtn.ads.config.AdBannerConfig;
-import com.vtn.ads.adstype.AdBannerType;
-import com.vtn.ads.config.AdNativeConfig;
-import com.vtn.ads.util.BannerGravity;
-import com.vtn.ads.util.RemoteAdmob;
+import com.nlbn.ads.adstype.AdNativeType;
+import com.nlbn.ads.config.AdBannerConfig;
+import com.nlbn.ads.adstype.AdBannerType;
+import com.nlbn.ads.config.AdNativeConfig;
+import com.nlbn.ads.util.BannerGravity;
+import com.nlbn.ads.util.RemoteAdmob;
 
 public class BannerActivity extends AppCompatActivity {
 
@@ -71,7 +71,7 @@ public class BannerActivity extends AppCompatActivity {
 
     public void loadNativeFloor(){
         adNativeConfig = new AdNativeConfig.Builder()
-                .setKey(AdsConfig.key_ad_native_floor_id)
+                .setKey(AdsConfig.KEY_AD_NATIVE_FLOOR_ID)
                 .setNativeType(AdNativeType.NATIVE_FLOOR)
                 .setLayout(R.layout.layout_native_custom)
                 .setView(findViewById(R.id.native_ads))

@@ -18,18 +18,18 @@ import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.android.gms.ads.rewarded.RewardItem;
-import com.vtn.ads.banner.BannerPlugin;
-import com.vtn.ads.billing.AppPurchase;
-import com.vtn.ads.callback.AdCallback;
-import com.vtn.ads.callback.IClickBtn;
-import com.vtn.ads.callback.NativeCallback;
-import com.vtn.ads.callback.PurchaseListener;
-import com.vtn.ads.callback.RewardCallback;
-import com.vtn.ads.config.AdInterConfig;
-import com.vtn.ads.config.AdRewardConfig;
-import com.vtn.ads.rate.RateBuilder;
-import com.vtn.ads.util.Admob;
-import com.vtn.ads.util.RemoteAdmob;
+import com.nlbn.ads.banner.BannerPlugin;
+import com.nlbn.ads.billing.AppPurchase;
+import com.nlbn.ads.callback.AdCallback;
+import com.nlbn.ads.callback.IClickBtn;
+import com.nlbn.ads.callback.NativeCallback;
+import com.nlbn.ads.callback.PurchaseListener;
+import com.nlbn.ads.callback.RewardCallback;
+import com.nlbn.ads.config.AdInterConfig;
+import com.nlbn.ads.config.AdRewardConfig;
+import com.nlbn.ads.rate.RateBuilder;
+import com.nlbn.ads.util.Admob;
+import com.nlbn.ads.util.RemoteAdmob;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         native_ads = findViewById(R.id.native_ads);
         // Admob.getInstance().loadCollapsibleBanner(this, getString(R.string.admod_banner_id), BannerGravity.bottom);
         adRewardConfig = new AdRewardConfig.Builder()
-                .setKey(AdsConfig.key_ad_app_reward_id)
+                .setKey(AdsConfig.KEY_AD_APP_REWARD_ID)
                 .setRewardCallback(new RewardCallback() {
                     @Override
                     public void onEarnedReward(RewardItem rewardItem) {

@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 
-import com.vtn.ads.callback.NativeCallback;
+import com.nlbn.ads.callback.NativeCallback;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
-import com.vtn.ads.util.Admob;
+import com.nlbn.ads.util.Admob;
 
 public class MainActivity3 extends AppCompatActivity {
    FrameLayout fr_ads;

@@ -14,18 +14,18 @@ import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.nativead.NativeAd;
 import com.google.android.gms.ads.nativead.NativeAdView;
 import com.google.android.gms.ads.rewarded.RewardItem;
-import com.vtn.ads.adstype.AdBannerType;
-import com.vtn.ads.adstype.AdNativeType;
-import com.vtn.ads.callback.AdCallback;
-import com.vtn.ads.callback.NativeCallback;
-import com.vtn.ads.callback.RewardCallback;
-import com.vtn.ads.config.AdBannerConfig;
-import com.vtn.ads.config.AdInterConfig;
-import com.vtn.ads.config.AdNativeConfig;
-import com.vtn.ads.config.AdRewardConfig;
-import com.vtn.ads.util.Admob;
-import com.vtn.ads.util.BannerGravity;
-import com.vtn.ads.util.RemoteAdmob;
+import com.nlbn.ads.adstype.AdBannerType;
+import com.nlbn.ads.adstype.AdNativeType;
+import com.nlbn.ads.callback.AdCallback;
+import com.nlbn.ads.callback.NativeCallback;
+import com.nlbn.ads.callback.RewardCallback;
+import com.nlbn.ads.config.AdBannerConfig;
+import com.nlbn.ads.config.AdInterConfig;
+import com.nlbn.ads.config.AdNativeConfig;
+import com.nlbn.ads.config.AdRewardConfig;
+import com.nlbn.ads.util.Admob;
+import com.nlbn.ads.util.BannerGravity;
+import com.nlbn.ads.util.RemoteAdmob;
 
 public class RemoteActivity extends AppCompatActivity {
     boolean isBannerCollapse = false;
@@ -43,7 +43,7 @@ public class RemoteActivity extends AppCompatActivity {
         loadInter();
 
          adRewardConfig = new AdRewardConfig.Builder()
-                .setKey(AdsConfig.key_ad_app_reward_id)
+                .setKey(AdsConfig.KEY_AD_APP_REWARD_ID)
                 .setRewardCallback(new RewardCallback() {
                     @Override
                     public void onEarnedReward(RewardItem rewardItem) {
@@ -160,7 +160,7 @@ public class RemoteActivity extends AppCompatActivity {
     public void loadNativeFloor(){
         Log.e("TAG", "loadNativeFloor: ");
         AdNativeConfig adNativeConfig = new AdNativeConfig.Builder()
-                .setKey(AdsConfig.key_ad_native_id_1,AdsConfig.key_ad_native_id_2)
+                .setKey(AdsConfig.key_ad_native_id_1,AdsConfig.KEY_AD_NATIVE_ID_2)
                 .setNativeType(AdNativeType.NATIVE_FLOOR)
                 .setLayout(R.layout.layout_native_language)
                 .setView(findViewById(R.id.native_ads))

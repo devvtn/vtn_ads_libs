@@ -6,12 +6,12 @@ import android.provider.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.vtn.ads.adstype.AdSplashType;
-import com.vtn.ads.billing.AppPurchase;
-import com.vtn.ads.callback.AdCallback;
-import com.vtn.ads.callback.BillingListener;
-import com.vtn.ads.config.AdSplashConfig;
-import com.vtn.ads.util.RemoteAdmob;
+import com.nlbn.ads.adstype.AdSplashType;
+import com.nlbn.ads.billing.AppPurchase;
+import com.nlbn.ads.callback.AdCallback;
+import com.nlbn.ads.callback.BillingListener;
+import com.nlbn.ads.config.AdSplashConfig;
+import com.nlbn.ads.util.RemoteAdmob;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +113,7 @@ public class Splash extends AppCompatActivity {
 
     public void ShowSplashOpen() {
         adSplashConfig = new AdSplashConfig.Builder()
-                .setKey(AdsConfig.key_ad_app_open_ad_id)
+                .setKey(AdsConfig.KEY_AD_APP_OPEN_AD_ID)
                 .setAdSplashType(AdSplashType.SPLASH_OPEN)
                 .setTimeOut(15000)
                 .setTimeDelay(3000)
