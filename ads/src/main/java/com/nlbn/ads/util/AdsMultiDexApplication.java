@@ -14,7 +14,8 @@ public abstract class AdsMultiDexApplication extends MultiDexApplication {
         Log.i("Application", " run debug: " + AppUtil.BUILD_DEBUG);
         Admob.getInstance().initAdmob(this, getListTestDeviceId());
         if(enableAdsResume()) {
-            AppOpenManagerImpl.getInstance().init(this, getOpenAppAdId());
+            AppOpenManager.getInstance().init(this);
+            AppOpenManager.getInstance().setAppResumeAdId(getOpenAppAdId());
         }
     }
 
