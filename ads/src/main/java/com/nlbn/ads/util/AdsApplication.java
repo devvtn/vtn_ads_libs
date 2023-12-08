@@ -3,9 +3,14 @@ package com.nlbn.ads.util;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.nlbn.ads.R;
+
 import java.util.List;
 
 public abstract class AdsApplication extends Application {
@@ -16,30 +21,36 @@ public abstract class AdsApplication extends Application {
         Log.i("Application", " run debug: " + AppUtil.BUILD_DEBUG);
         Admob.getInstance().initAdmob(this, getListTestDeviceId());
 
-        initRemoteConfig(getDefaultsAsyncFirebase(),getMinimumFetch());
-        if (enableRemoteAdsResume()) {
-            if (enableAdsResume()) {
-                AppOpenManager.getInstance().init(this, FirebaseRemoteConfig.getInstance().getString(getKeyRemoteAdsResume()));
-            }
-        } else {
-            if (enableAdsResume()) {
-                AppOpenManager.getInstance().init(this, getResumeAdId());
-            }
-        }
+        initRemoteConfig(getDefaultsAsyncFirebase(), getMinimumFetch());
 
         if (enableAdjustTracking()) {
             Adjust.getInstance().init(this, getAdjustToken());
         }
     }
 
-    public static void initRemoteConfig(int defaultAsync,long minimumFetch) {
+    private void initRemoteConfig(int defaultAsync, long minimumFetch) {
         FirebaseRemoteConfig mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
             .setMinimumFetchIntervalInSeconds(minimumFetch)
             .build();
         mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
         mFirebaseRemoteConfig.setDefaultsAsync(defaultAsync);
-        mFirebaseRemoteConfig.fetchAndActivate();
+        mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(new OnCompleteListener<Boolean>() {
+            @Override
+            public void onComplete(@NonNull Task<Boolean> task) {
+                if (task.isSuccessful()) {
+                    if (enableRemoteAdsResume()) {
+                        if (enableAdsResume()) {
+                            AppOpenManager.getInstance().init(AdsApplication.this, FirebaseRemoteConfig.getInstance().getString(getKeyRemoteAdsResume()));
+                        }
+                    } else {
+                        if (enableAdsResume()) {
+                            AppOpenManager.getInstance().init(AdsApplication.this, getResumeAdId());
+                        }
+                    }
+                }
+            }
+        });
     }
 
     public abstract boolean enableAdsResume();
@@ -52,6 +63,7 @@ public abstract class AdsApplication extends Application {
     protected String getKeyRemoteAdsResume() {
         return "";
     }
+
     protected long getMinimumFetch() {
         return 30L;
     }
