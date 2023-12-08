@@ -20,7 +20,7 @@ public abstract class AdsApplication extends Application {
         AppUtil.BUILD_DEBUG = buildDebug();
         Log.i("Application", " run debug: " + AppUtil.BUILD_DEBUG);
         Admob.getInstance().initAdmob(this, getListTestDeviceId());
-
+        AppOpenManager.getInstance().init(this);
         initRemoteConfig(getDefaultsAsyncFirebase(), getMinimumFetch());
 
         if (enableAdjustTracking()) {
@@ -41,11 +41,11 @@ public abstract class AdsApplication extends Application {
                 if (task.isSuccessful()) {
                     if (enableRemoteAdsResume()) {
                         if (enableAdsResume()) {
-                            AppOpenManager.getInstance().init(AdsApplication.this, FirebaseRemoteConfig.getInstance().getString(getKeyRemoteAdsResume()));
+                            AppOpenManager.getInstance().setAppResumeAdId(FirebaseRemoteConfig.getInstance().getString(getKeyRemoteAdsResume()));
                         }
                     } else {
                         if (enableAdsResume()) {
-                            AppOpenManager.getInstance().init(AdsApplication.this, getResumeAdId());
+                            AppOpenManager.getInstance().setAppResumeAdId(getResumeAdId());
                         }
                     }
                 }

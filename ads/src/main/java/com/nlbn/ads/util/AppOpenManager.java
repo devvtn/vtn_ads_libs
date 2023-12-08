@@ -15,7 +15,7 @@ public abstract class AppOpenManager {
         return AppOpenManagerImpl.getInstance();
     }
 
-    public abstract void init(Application application, String appOpenAdId);
+    public abstract void init(Application application);
 
     public abstract boolean isInitialized();
 

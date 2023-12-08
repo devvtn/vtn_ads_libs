@@ -91,13 +91,12 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
      * @param application
      */
     @Override
-    public void init(Application application, String appOpenAdId) {
+    public void init(Application application) {
         isInitialized = true;
         disableAdResumeByClickAction = false;
         this.myApplication = application;
         this.myApplication.registerActivityLifecycleCallbacks(this);
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
-        this.appResumeAdId = appOpenAdId;
 //        if (!Purchase.getInstance().isPurchased(application.getApplicationContext()) &&
 //                !isAdAvailable(false) && appOpenAdId != null) {
 //            fetchAd(false);
