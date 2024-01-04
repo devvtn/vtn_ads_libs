@@ -682,7 +682,11 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
                 @Override
                 public void onAdLoaded(AppOpenAd ad) {
                     appResumeAd = ad;
-                    appResumeAd.setOnPaidEventListener(adValue -> {
+                    ad.setOnPaidEventListener(adValue -> {
+                        FirebaseUtil.logPaidAdImpression(currentActivity,
+                            adValue,
+                            ad.getAdUnitId(),
+                            AdType.APP_OPEN);
                     });
                     appResumeLoadTime = (new Date()).getTime();
                     showResumeAdsNew();
