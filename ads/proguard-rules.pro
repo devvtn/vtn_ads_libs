@@ -73,6 +73,7 @@
 -keep class com.nlbn.ads.util.AdsApplication {public protected  *;}
 -keep class com.nlbn.ads.util.AdsMultiDexApplication {public protected  *;}
 -keep class com.nlbn.ads.util.AppOpenManager {public protected  *;}
+-keep class com.nlbn.ads.util.ConsentHelper {public protected  *;}
 -keep class com.nlbn.ads.rate.** {public  *;}
 -keep class com.nlbn.ads.config.** {public *;}
 -keep class com.nlbn.ads.adstype.** {public *;}
