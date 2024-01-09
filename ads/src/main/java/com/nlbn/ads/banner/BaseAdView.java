@@ -17,7 +17,7 @@ public abstract class BaseAdView extends FrameLayout {
     private final Handler refreshHandler = new Handler(Looper.getMainLooper());
 
     private boolean isPausedOrDestroy = false;
-    private final Integer refreshRateSec;
+    private final int refreshRateSec;
     private final ViewGroup shimmer;
 
     public BaseAdView(Context context, Integer refreshRateSec, ViewGroup shimmer) {
@@ -79,14 +79,11 @@ public abstract class BaseAdView extends FrameLayout {
     }
 
     private void calculateNextBannerRefresh() {
-        if (refreshRateSec == null) {
-            return;
-        }
         nextRefreshTime = System.currentTimeMillis() + refreshRateSec * 1000L;
     }
 
     private void scheduleNextBannerRefreshIfNeed() {
-        if (refreshRateSec == null || nextRefreshTime <= 0L) {
+        if (nextRefreshTime <= 0L) {
             return;
         }
 
@@ -109,12 +106,12 @@ public abstract class BaseAdView extends FrameLayout {
     public static class Factory {
 
         public static BaseAdView getAdView(
-                Activity activity,
-                String adUnitId,
-                BannerPlugin.BannerType bannerType,
-                Integer refreshRateSec,
-                int cbFetchIntervalSec,
-                ViewGroup shimmer
+            Activity activity,
+            String adUnitId,
+            BannerPlugin.BannerType bannerType,
+            int refreshRateSec,
+            int cbFetchIntervalSec,
+            ViewGroup shimmer
         ) {
 
             switch (bannerType) {
@@ -123,12 +120,12 @@ public abstract class BaseAdView extends FrameLayout {
                 case CollapsibleBottom:
                 case CollapsibleTop:
                     return new BannerAdView(
-                            activity,
-                            adUnitId,
-                            bannerType,
-                            refreshRateSec,
-                            cbFetchIntervalSec,
-                            shimmer
+                        activity,
+                        adUnitId,
+                        bannerType,
+                        refreshRateSec,
+                        cbFetchIntervalSec,
+                        shimmer
                     );
 
                 default:

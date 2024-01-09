@@ -28,12 +28,12 @@ public class BannerAdView extends BaseAdView {
     private long cbFetchIntervalSec;
 
     public BannerAdView(
-            Activity activity,
-            String adUnitId,
-            BannerPlugin.BannerType bannerType,
-            Integer refreshRateSec,
-            int cbFetchIntervalSec,
-            ViewGroup shimmer
+        Activity activity,
+        String adUnitId,
+        BannerPlugin.BannerType bannerType,
+        int refreshRateSec,
+        int cbFetchIntervalSec,
+        ViewGroup shimmer
     ) {
         super(activity, refreshRateSec, shimmer);
         this.bannerType = bannerType;
@@ -47,22 +47,22 @@ public class BannerAdView extends BaseAdView {
     private ViewGroup.LayoutParams getCenteredLayoutParams(ViewGroup container) {
         if (container instanceof FrameLayout) {
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
             );
             params.gravity = Gravity.CENTER;
             return params;
         } else if (container instanceof LinearLayout) {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
             );
             params.gravity = Gravity.CENTER;
             return params;
         } else {
             return new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
             );
         }
     }
@@ -73,12 +73,13 @@ public class BannerAdView extends BaseAdView {
             adView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
+                    adView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     AdSize adSize = getAdSize(bannerType);
                     adView.setAdSize(adSize);
-                    adView.setLayoutParams(new ViewGroup.LayoutParams(
-                            adSize.getWidthInPixels(activity),
-                            adSize.getHeightInPixels(activity)
-                    ));
+                    ViewGroup.LayoutParams params = adView.getLayoutParams();
+                    params.width = adSize.getWidthInPixels(activity);
+                    params.height = adSize.getHeightInPixels(activity);
+                    adView.setLayoutParams(params);
                     hasSetAdSize = true;
                     doLoadAd(onDone);
                 }
@@ -95,13 +96,7 @@ public class BannerAdView extends BaseAdView {
             case Adaptive:
             case CollapsibleBottom:
             case CollapsibleTop:
-                AdSize currentOrientationAdaptiveBannerAdSize =
-                        AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, getAdWidthInDp());
-                if (currentOrientationAdaptiveBannerAdSize != null) {
-                    return currentOrientationAdaptiveBannerAdSize;
-                } else {
-                    return AdSize.BANNER;
-                }
+                return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, getAdWidthInDp());
         }
         return AdSize.BANNER;
     }
@@ -143,10 +138,10 @@ public class BannerAdView extends BaseAdView {
                 });
                 onDone.run();
                 adView.setOnPaidEventListener(adValue -> FirebaseUtil.logPaidAdImpression(
-                        getContext(),
-                        adValue,
-                        adView.getAdUnitId(),
-                        AdType.BANNER
+                    getContext(),
+                    adValue,
+                    adView.getAdUnitId(),
+                    AdType.BANNER
                 ));
             }
 

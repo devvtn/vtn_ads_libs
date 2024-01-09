@@ -34,7 +34,7 @@ public class BannerPlugin {
         String adUnitId = config.defaultAdUnitId;
         BannerType bannerType = config.defaultBannerType;
         int cbFetchIntervalSec = config.defaultCBFetchIntervalSec;
-        Integer refreshRateSec = config.defaultRefreshRateSec;
+        int refreshRateSec = config.defaultRefreshRateSec;
 
         if (config.configKey != null) {
             String data = CommonFirebase.getRemoteConfigAds(activity);
@@ -116,7 +116,7 @@ public class BannerPlugin {
         public String defaultAdUnitId;
         public BannerType defaultBannerType;
         public String configKey;
-        public Integer defaultRefreshRateSec;
+        public int defaultRefreshRateSec = 3000;
         public int defaultCBFetchIntervalSec = 180;
         public boolean loadAdAfterInit = true;
 
