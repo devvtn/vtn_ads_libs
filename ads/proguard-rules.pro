@@ -79,3 +79,6 @@
 -keep class com.nlbn.ads.adstype.** {public *;}
 -keep class com.nlbn.ads.callback.** {public *;}
 -keep class com.nlbn.ads.banner.** {public *;}
+-keep class com.nlbn.ads.applovin.ApplovinApplication.** {public protected *;}
+-keep class com.nlbn.ads.applovin.AppLovin.** {public protected *;}
+-keep class com.nlbn.ads.applovin.AppOpenManager.** {public protected *;}
