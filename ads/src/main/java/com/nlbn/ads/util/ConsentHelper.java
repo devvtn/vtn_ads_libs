@@ -80,7 +80,7 @@ public class ConsentHelper {
     }
 
     public boolean canLoadAndShowAds() {
-        return  canShowAds() || canShowPersonalizedAds();
+        return canShowAds() || canShowPersonalizedAds();
     }
 
     private boolean hasAttribute(String input, int index) {
@@ -153,7 +153,10 @@ public class ConsentHelper {
                     handleConsentResult(activity, consentInformation, loadAds);
                 });
             },
-            error -> Log.w("AD_HANDLER", error.getErrorCode() + ": " + error.getMessage()));
+            (error) -> {
+                handleConsentResult(activity, consentInformation, loadAds);
+                Log.w("AD_HANDLER", error.getErrorCode() + ": " + error.getMessage());
+            });
 
     }
 
