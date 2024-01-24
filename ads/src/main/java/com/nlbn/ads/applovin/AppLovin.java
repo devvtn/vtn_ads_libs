@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import androidx.core.util.Supplier;
+
 import com.nlbn.ads.callback.AdCallback;
 
 public abstract class AppLovin {
@@ -11,7 +13,7 @@ public abstract class AppLovin {
         return AppLovinImpl.getInstance();
     }
 
-    public abstract void init(Context context);
+    public abstract void init(Context context, String adjustToken);
 
     public abstract void setOpenActivityAfterShowInterAds(boolean openActivityAfterShowInterAds);
 
@@ -22,4 +24,8 @@ public abstract class AppLovin {
     public abstract void loadNativeWithDefaultTemplate(Context context, String adsId, ViewGroup container);
 
     public abstract void loadNativeWithCustomLayout(Context context, String adsId, int layout, ViewGroup container);
+
+    public abstract void showConsentFlow(Activity activity, OnShowConsentComplete showConsentComplete);
+
+    public abstract boolean userHasNotConsent(Context context);
 }

@@ -82,3 +82,4 @@
 -keep class com.nlbn.ads.applovin.ApplovinApplication {public protected *;}
 -keep class com.nlbn.ads.applovin.AppLovin {public protected *;}
 -keep class com.nlbn.ads.applovin.AppOpenManager  {public protected *;}
+-keep class com.nlbn.ads.applovin.OnShowConsentComplete  {public protected *;}

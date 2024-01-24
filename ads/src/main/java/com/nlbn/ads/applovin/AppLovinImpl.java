@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Supplier;
 
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdListener;
@@ -21,7 +22,11 @@ import com.applovin.mediation.nativeAds.MaxNativeAdListener;
 import com.applovin.mediation.nativeAds.MaxNativeAdLoader;
 import com.applovin.mediation.nativeAds.MaxNativeAdView;
 import com.applovin.mediation.nativeAds.MaxNativeAdViewBinder;
+import com.applovin.sdk.AppLovinCmpError;
+import com.applovin.sdk.AppLovinCmpService;
+import com.applovin.sdk.AppLovinPrivacySettings;
 import com.applovin.sdk.AppLovinSdk;
+import com.applovin.sdk.AppLovinSdkConfiguration;
 import com.nlbn.ads.R;
 import com.nlbn.ads.callback.AdCallback;
 import com.nlbn.ads.dialog.LoadingAdsDialog;
@@ -41,14 +46,38 @@ public class AppLovinImpl extends AppLovin {
     }
 
     @Override
-    public void init(Context context) {
-        AppLovinSdk.getInstance(context).setMediationProvider("max");
-        AppLovinSdk.initializeSdk(context);
+    public void init(Context context, String adjustToken) {
+        AppLovinSdk sdk = AppLovinSdk.getInstance(context);
+        sdk.setMediationProvider("max");
+        sdk.initializeSdk(appLovinSdkConfiguration -> {
+            Adjust.getInstance().init(context, adjustToken);
+        });
     }
 
     @Override
     public void setOpenActivityAfterShowInterAds(boolean openActivityAfterShowInterAds) {
         this.openActivityAfterShowInterAds = openActivityAfterShowInterAds;
+    }
+
+    @Override
+    public void showConsentFlow(Activity activity, OnShowConsentComplete showConsentComplete) {
+        AppLovinCmpService cmpService = AppLovinSdk.getInstance(activity).getCmpService();
+        if (cmpService.hasSupportedCmp()) {
+            cmpService.showCmpForExistingUser(activity, new AppLovinCmpService.OnCompletedListener() {
+                @Override
+                public void onCompleted(@Nullable AppLovinCmpError appLovinCmpError) {
+                    showConsentComplete.onShowComplete();
+                }
+            });
+        } else {
+            showConsentComplete.onShowComplete();
+        }
+    }
+
+    @Override
+    public boolean userHasNotConsent(Context context) {
+        AppLovinSdkConfiguration configuration = AppLovinSdk.getInstance(context).getConfiguration();
+        return configuration.getConsentFlowUserGeography() == AppLovinSdkConfiguration.ConsentFlowUserGeography.UNKNOWN;
     }
 
     @Override

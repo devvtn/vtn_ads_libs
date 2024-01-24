@@ -2,15 +2,13 @@ package com.nlbn.ads.applovin;
 
 import android.app.Application;
 
-import com.nlbn.ads.util.Adjust;
 
 
 public abstract class ApplovinApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Adjust.getInstance().init(this, getAdjustToken());
-        AppLovin.getInstance().init(this);
+        AppLovin.getInstance().init(this, getAdjustToken());
         if (enableAppResume())
             AppOpenManager.getInstance().init(this, getAppResumeId());
     }

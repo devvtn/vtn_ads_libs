@@ -2,6 +2,7 @@ package com.nlbn.ads.util;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -38,14 +39,14 @@ class AdjustImpl extends Adjust implements Application.ActivityLifecycleCallback
     }
 
     @Override
-    public void init(Application context, String appToken) {
+    public void init(Context context, String appToken) {
         String environment = BuildConfig.DEBUG ? AdjustConfig.ENVIRONMENT_SANDBOX : AdjustConfig.ENVIRONMENT_PRODUCTION;
         AdjustConfig config = new AdjustConfig(context, appToken, environment);
         if (BuildConfig.DEBUG) {
             config.setLogLevel(LogLevel.VERBOSE);
         }
         com.adjust.sdk.Adjust.onCreate(config);
-        context.registerActivityLifecycleCallbacks(this);
+        ((Application) context).registerActivityLifecycleCallbacks(this);
     }
 
     @Override
