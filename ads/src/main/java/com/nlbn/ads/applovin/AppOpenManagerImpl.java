@@ -15,10 +15,12 @@ import androidx.lifecycle.ProcessLifecycleOwner;
 
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdListener;
+import com.applovin.mediation.MaxAdRevenueListener;
 import com.applovin.mediation.MaxError;
 import com.applovin.mediation.ads.MaxAppOpenAd;
 import com.google.android.gms.ads.AdActivity;
 import com.nlbn.ads.dialog.ResumeLoadingDialog;
+import com.nlbn.ads.util.Adjust;
 import com.nlbn.ads.util.FirebaseUtil;
 
 import java.util.ArrayList;
@@ -182,6 +184,7 @@ public class AppOpenManagerImpl extends AppOpenManager implements Application.Ac
 
             }
         });
+        appOpenAd.setRevenueListener(maxAd -> Adjust.getInstance().trackMaxAdRevenue(maxAd));
         appOpenAd.loadAd();
     }
 }

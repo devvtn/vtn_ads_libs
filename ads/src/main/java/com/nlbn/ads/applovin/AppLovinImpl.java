@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.applovin.mediation.MaxAd;
 import com.applovin.mediation.MaxAdListener;
+import com.applovin.mediation.MaxAdRevenueListener;
 import com.applovin.mediation.MaxAdViewAdListener;
 import com.applovin.mediation.MaxError;
 import com.applovin.mediation.ads.MaxAdView;
@@ -24,6 +25,7 @@ import com.applovin.sdk.AppLovinSdk;
 import com.nlbn.ads.R;
 import com.nlbn.ads.callback.AdCallback;
 import com.nlbn.ads.dialog.LoadingAdsDialog;
+import com.nlbn.ads.util.Adjust;
 import com.nlbn.ads.util.AppOpenManager;
 
 public class AppLovinImpl extends AppLovin {
@@ -98,6 +100,7 @@ public class AppLovinImpl extends AppLovin {
 
             }
         });
+        adView.setRevenueListener(maxAd -> Adjust.getInstance().trackMaxAdRevenue(maxAd));
         adView.loadAd();
     }
 
@@ -156,6 +159,7 @@ public class AppLovinImpl extends AppLovin {
                 adCallback.onNextAction();
             }
         });
+        interstitialAd.setRevenueListener(maxAd -> Adjust.getInstance().trackMaxAdRevenue(maxAd));
         interstitialAd.loadAd();
     }
 
@@ -180,6 +184,7 @@ public class AppLovinImpl extends AppLovin {
             public void onNativeAdClicked(final MaxAd ad) {
             }
         });
+        nativeAdLoader.setRevenueListener(maxAd -> Adjust.getInstance().trackMaxAdRevenue(maxAd));
 
         nativeAdLoader.loadAd();
     }
@@ -211,6 +216,7 @@ public class AppLovinImpl extends AppLovin {
                 container.removeAllViews();
             }
         });
+        nativeAdLoader.setRevenueListener(maxAd -> Adjust.getInstance().trackMaxAdRevenue(maxAd));
         MaxNativeAdView maxNativeAdView = new MaxNativeAdView(binder, context);
         nativeAdLoader.loadAd(maxNativeAdView);
     }

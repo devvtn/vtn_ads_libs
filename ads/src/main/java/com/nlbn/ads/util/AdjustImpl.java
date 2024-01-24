@@ -11,6 +11,7 @@ import com.adjust.sdk.AdjustAdRevenue;
 import com.adjust.sdk.AdjustConfig;
 import com.adjust.sdk.BuildConfig;
 import com.adjust.sdk.LogLevel;
+import com.applovin.mediation.MaxAd;
 import com.google.android.gms.ads.AdValue;
 
 class AdjustImpl extends Adjust implements Application.ActivityLifecycleCallbacks {
@@ -37,6 +38,17 @@ class AdjustImpl extends Adjust implements Application.ActivityLifecycleCallback
     }
 
     @Override
+    public void init(Application context, String appToken) {
+        String environment = BuildConfig.DEBUG ? AdjustConfig.ENVIRONMENT_SANDBOX : AdjustConfig.ENVIRONMENT_PRODUCTION;
+        AdjustConfig config = new AdjustConfig(context, appToken, environment);
+        if (BuildConfig.DEBUG) {
+            config.setLogLevel(LogLevel.VERBOSE);
+        }
+        com.adjust.sdk.Adjust.onCreate(config);
+        context.registerActivityLifecycleCallbacks(this);
+    }
+
+    @Override
     public void trackAdRevenue(AdValue adValue) {
         if (adsApplication != null && adsApplication.enableAdjustTracking()) {
             AdjustAdRevenue revenue = new AdjustAdRevenue(AdjustConfig.AD_REVENUE_ADMOB);
@@ -44,6 +56,15 @@ class AdjustImpl extends Adjust implements Application.ActivityLifecycleCallback
             com.adjust.sdk.Adjust.trackAdRevenue(revenue);
         }
 
+    }
+
+    @Override
+    public void trackMaxAdRevenue(MaxAd maxAd) {
+        AdjustAdRevenue revenue = new AdjustAdRevenue(AdjustConfig.AD_REVENUE_APPLOVIN_MAX);
+        revenue.setRevenue(maxAd.getRevenue(), "USD");
+        revenue.setAdRevenueNetwork(maxAd.getNetworkName());
+        revenue.setAdRevenueUnit(maxAd.getAdUnitId());
+        com.adjust.sdk.Adjust.trackAdRevenue(revenue);
     }
 
     @Override
