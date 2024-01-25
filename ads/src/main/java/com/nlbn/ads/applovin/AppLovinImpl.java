@@ -219,6 +219,35 @@ public class AppLovinImpl extends AppLovin {
     }
 
     @Override
+    public void loadNativeWithDefaultTemplate(Context context, String adsId, ViewGroup container, MaxNativeAdListener nativeAdListener) {
+        MaxNativeAdLoader nativeAdLoader = new MaxNativeAdLoader(adsId, context);
+        nativeAdLoader.setNativeAdListener(new MaxNativeAdListener() {
+            @Override
+            public void onNativeAdLoaded(final MaxNativeAdView nativeAdView, final MaxAd ad) {
+                container.removeAllViews();
+                if (nativeAdView != null)
+                    container.addView(nativeAdView);
+                nativeAdListener.onNativeAdLoaded(nativeAdView, ad);
+            }
+
+            @Override
+            public void onNativeAdLoadFailed(final String adUnitId, final MaxError error) {
+                container.removeAllViews();
+                System.out.println(error);
+                nativeAdListener.onNativeAdLoadFailed(adUnitId, error);
+            }
+
+            @Override
+            public void onNativeAdClicked(final MaxAd ad) {
+                nativeAdListener.onNativeAdClicked(ad);
+            }
+        });
+        nativeAdLoader.setRevenueListener(maxAd -> Adjust.getInstance().trackMaxAdRevenue(maxAd));
+
+        nativeAdLoader.loadAd();
+    }
+
+    @Override
     public void loadNativeWithCustomLayout(Context context, String adsId, int layout, ViewGroup container) {
         MaxNativeAdViewBinder binder = new MaxNativeAdViewBinder.Builder(layout)
             .setTitleTextViewId(R.id.title_text_view)
@@ -243,6 +272,40 @@ public class AppLovinImpl extends AppLovin {
             public void onNativeAdLoadFailed(@NonNull String s, @NonNull MaxError maxError) {
                 super.onNativeAdLoadFailed(s, maxError);
                 container.removeAllViews();
+            }
+        });
+        nativeAdLoader.setRevenueListener(maxAd -> Adjust.getInstance().trackMaxAdRevenue(maxAd));
+        MaxNativeAdView maxNativeAdView = new MaxNativeAdView(binder, context);
+        nativeAdLoader.loadAd(maxNativeAdView);
+    }
+
+    @Override
+    public void loadNativeWithCustomLayout(Context context, String adsId, int layout, ViewGroup container, MaxNativeAdListener nativeAdListener) {
+        MaxNativeAdViewBinder binder = new MaxNativeAdViewBinder.Builder(layout)
+            .setTitleTextViewId(R.id.title_text_view)
+            .setBodyTextViewId(R.id.body_text_view)
+            .setAdvertiserTextViewId(R.id.advertiser_textView)
+            .setIconImageViewId(R.id.icon_image_view)
+            .setMediaContentViewGroupId(R.id.media_view_container)
+            .setCallToActionButtonId(R.id.cta_button)
+            .build();
+        MaxNativeAdLoader nativeAdLoader = new MaxNativeAdLoader(adsId, context);
+        nativeAdLoader.setNativeAdListener(new MaxNativeAdListener() {
+            @Override
+            public void onNativeAdLoaded(@Nullable MaxNativeAdView maxNativeAdView, @NonNull MaxAd maxAd) {
+                super.onNativeAdLoaded(maxNativeAdView, maxAd);
+                container.removeAllViews();
+                if (maxNativeAdView != null) {
+                    container.addView(maxNativeAdView);
+                }
+                nativeAdListener.onNativeAdLoaded(maxNativeAdView, maxAd);
+            }
+
+            @Override
+            public void onNativeAdLoadFailed(@NonNull String s, @NonNull MaxError maxError) {
+                super.onNativeAdLoadFailed(s, maxError);
+                container.removeAllViews();
+                nativeAdListener.onNativeAdLoadFailed(s, maxError);
             }
         });
         nativeAdLoader.setRevenueListener(maxAd -> Adjust.getInstance().trackMaxAdRevenue(maxAd));

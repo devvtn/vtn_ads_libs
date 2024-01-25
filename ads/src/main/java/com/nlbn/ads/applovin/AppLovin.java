@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.core.util.Supplier;
 
+import com.applovin.mediation.nativeAds.MaxNativeAdListener;
 import com.nlbn.ads.callback.AdCallback;
 
 public abstract class AppLovin {
@@ -23,7 +24,11 @@ public abstract class AppLovin {
 
     public abstract void loadNativeWithDefaultTemplate(Context context, String adsId, ViewGroup container);
 
+    public abstract void loadNativeWithDefaultTemplate(Context context, String adsId, ViewGroup container, MaxNativeAdListener nativeAdListener);
+
     public abstract void loadNativeWithCustomLayout(Context context, String adsId, int layout, ViewGroup container);
+
+    public abstract void loadNativeWithCustomLayout(Context context, String adsId, int layout, ViewGroup container, MaxNativeAdListener nativeAdListener);
 
     public abstract void showConsentFlow(Activity activity, OnShowConsentComplete showConsentComplete);
 
