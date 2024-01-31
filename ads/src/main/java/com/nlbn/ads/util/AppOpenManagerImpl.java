@@ -41,7 +41,7 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
     private AppOpenAd.AppOpenAdLoadCallback loadCallback;
     private FullScreenContentCallback fullScreenContentCallback;
     private boolean isShowLoadingSplash = false; //kiểm tra trạng thái ad splash, ko cho load, show khi đang show loading ads splash
-    private String appResumeAdId="";
+    private String appResumeAdId = "";
     private String splashAdId;
 
     private Activity currentActivity;
@@ -661,7 +661,7 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
     }
 
     public void loadAdResume() {
-        if (appResumeAdId==null || appResumeAdId.isEmpty()) {
+        if (appResumeAdId == null || appResumeAdId.isEmpty()) {
             return;
         }
         try {
@@ -705,9 +705,9 @@ class AppOpenManagerImpl extends AppOpenManager implements Application.ActivityL
             };
         AdRequest request = getAdRequest();
 
-            AppOpenAd.load(
-                    myApplication, appResumeAdId, request,
-                    AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT, loadCallback);
+        AppOpenAd.load(
+            myApplication, appResumeAdId, request,
+            AppOpenAd.APP_OPEN_AD_ORIENTATION_PORTRAIT, loadCallback);
 
     }
 
