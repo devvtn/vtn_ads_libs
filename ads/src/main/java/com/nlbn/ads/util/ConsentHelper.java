@@ -167,10 +167,8 @@ public class ConsentHelper {
     private void handleConsentResult(Activity context, ConsentInformation ci, Runnable loadAds) {
         if (ci.canRequestAds()) {
             logConsentChoices(context);
-            loadAds.run();
-        } else {
-            logConsentChoices(context);
         }
+        loadAds.run();
     }
 
     private void logConsentChoices(Activity context) {

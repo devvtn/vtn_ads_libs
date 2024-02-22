@@ -54,21 +54,21 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.google.firebase:firebase-config:21.4.1'
+    implementation 'com.google.firebase:firebase-config'
 
-    implementation 'com.google.android.gms:play-services-ads:22.3.0'
+    implementation 'com.google.android.gms:play-services-ads:22.6.0'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
-    implementation 'com.google.android.gms:play-services-basement:18.2.0'
+    implementation 'com.google.android.gms:play-services-basement:18.3.0'
     implementation 'com.google.code.gson:gson:2.10.1'
 
 //fb sdk
-    implementation 'com.facebook.android:facebook-android-sdk:16.1.2'
+    implementation 'com.facebook.android:facebook-android-sdk:16.2.0'
 
 
-    implementation("com.airbnb.android:lottie:6.1.0")
+    implementation("com.airbnb.android:lottie:6.2.0")
 
     //appsflyer
-    implementation("com.appsflyer:af-android-sdk:6.12.2")
+    implementation("com.appsflyer:af-android-sdk:6.12.4")
     implementation("com.appsflyer:adrevenue:6.9.1")
 
     //play core
@@ -81,7 +81,7 @@ dependencies {
     //Applovin
     implementation 'com.applovin:applovin-sdk:12.1.0'
 
-    implementation 'com.google.android.ump:user-messaging-platform:2.1.0'
+    implementation 'com.google.android.ump:user-messaging-platform:2.2.0'
     implementation 'androidx.preference:preference:1.2.1'
 
 }

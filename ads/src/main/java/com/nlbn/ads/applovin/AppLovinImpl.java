@@ -31,7 +31,6 @@ import com.nlbn.ads.R;
 import com.nlbn.ads.callback.AdCallback;
 import com.nlbn.ads.dialog.LoadingAdsDialog;
 import com.nlbn.ads.util.Adjust;
-import com.nlbn.ads.util.AppOpenManager;
 
 public class AppLovinImpl extends AppLovin {
     private static AppLovinImpl instance;
@@ -141,6 +140,9 @@ public class AppLovinImpl extends AppLovin {
         }
         loadingAdsDialog = new LoadingAdsDialog(activity);
         loadingAdsDialog.show();
+        if (AppOpenManager.getInstance().isInitialize()) {
+            AppOpenManager.getInstance().disableAppResume();
+        }
         MaxInterstitialAd interstitialAd = new MaxInterstitialAd(adsId, activity);
         interstitialAd.setListener(new MaxAdListener() {
             @Override
@@ -167,6 +169,9 @@ public class AppLovinImpl extends AppLovin {
             @Override
             public void onAdHidden(@NonNull MaxAd maxAd) {
 //                if (!openActivityAfterShowInterAds) {
+                if (AppOpenManager.getInstance().isInitialize()) {
+                    AppOpenManager.getInstance().enableAppResume();
+                }
                 adCallback.onAdClosed();
                 adCallback.onNextAction();
 //                }

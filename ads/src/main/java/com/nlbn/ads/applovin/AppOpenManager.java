@@ -12,6 +12,7 @@ public abstract class AppOpenManager {
     public abstract void enableAppResumeWithActivity(Class activityClass);
 
     public abstract void disableAppResumeWithActivity(Class activityClass);
+    public abstract boolean isInitialize();
 
     public abstract void disableAppResume();
 

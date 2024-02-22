@@ -30,6 +30,7 @@ public class AppOpenManagerImpl extends AppOpenManager implements Application.Ac
     private static AppOpenManagerImpl instance;
     private Application myApplication;
     private final List<Class> disabledAppOpenList;
+    private boolean isInitialize = false;
     private boolean isAppResumeEnabled = true;
     private Activity currentActivity;
     private boolean isInterstitialShowing = false;
@@ -49,11 +50,16 @@ public class AppOpenManagerImpl extends AppOpenManager implements Application.Ac
     public void init(Application application, String appResumeAdId) {
         myApplication = application;
         this.appResumeAdId = appResumeAdId;
+        isInitialize = true;
         myApplication.registerActivityLifecycleCallbacks(this);
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
 
     }
 
+    @Override
+    public boolean isInitialize() {
+        return isInitialize;
+    }
 
     @Override
     public void enableAppResumeWithActivity(Class activityClass) {

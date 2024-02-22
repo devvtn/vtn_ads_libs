@@ -69,4 +69,6 @@ public abstract class AppPurchase {
     public abstract String getOfferPriceSub(String productId);
 
     public abstract String getCurrency(String productId, int typeIAP);
+
+    public abstract String getFormattedPriceIAP(String productId);
 }
