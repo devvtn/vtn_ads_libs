@@ -93,6 +93,7 @@ public abstract class Admob {
     public abstract void showRewardAds(final Activity context, final RewardCallback adCallback);
 
     public abstract void loadNativeAd(Context context, String id, final NativeCallback callback);
+    public abstract void loadNativeAd(Context context, String id, final NativeCallback callback, int adChoicesPlacement);
 
     public abstract void loadNativeAdFloor(Context context, List<String> listID, final NativeCallback callback);
 
