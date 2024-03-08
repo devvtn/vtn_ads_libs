@@ -54,7 +54,8 @@ public abstract class Admob {
     public abstract void loadInlineBanner(final Activity activity, String id, String inlineStyle, final AdCallback callback);
 
     public abstract void loadCollapsibleBanner(final Activity mActivity, String id, String gravity);
-    public abstract void loadCollapsibleBanner(final Activity mActivity, String id, String gravity,ViewGroup view);
+
+    public abstract void loadCollapsibleBanner(final Activity mActivity, String id, String gravity, ViewGroup view);
 
     public abstract void loadBannerFragment(final Activity mActivity, String id, final View rootView);
 
@@ -93,7 +94,10 @@ public abstract class Admob {
     public abstract void showRewardAds(final Activity context, final RewardCallback adCallback);
 
     public abstract void loadNativeAd(Context context, String id, final NativeCallback callback);
+
     public abstract void loadNativeAd(Context context, String id, final NativeCallback callback, int adChoicesPlacement);
+
+    public abstract void loadNativeAdFullScreen(Context context, String id, int mediaAspectRatio, final NativeCallback callback);
 
     public abstract void loadNativeAdFloor(Context context, List<String> listID, final NativeCallback callback);
 
