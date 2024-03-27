@@ -47,7 +47,4 @@ public class MyApplication extends AdsApplication {
     }
 
 
-
-
-
 }

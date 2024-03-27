@@ -26,7 +26,7 @@ import androidx.appcompat.widget.AppCompatRatingBar;
 import com.google.android.play.core.review.ReviewInfo;
 import com.google.android.play.core.review.ReviewManager;
 import com.google.android.play.core.review.ReviewManagerFactory;
-import com.google.android.play.core.tasks.Task;
+import com.google.android.gms.tasks.Task;
 import com.nlbn.ads.R;
 
 
@@ -176,7 +176,7 @@ public class RateAppDiaLog extends Dialog {
 
     public void reviewApp(Context context) {
         ReviewManager manager = ReviewManagerFactory.create(context);
-        com.google.android.play.core.tasks.Task<com.google.android.play.core.review.ReviewInfo> request = manager.requestReviewFlow();
+        com.google.android.gms.tasks.Task<com.google.android.play.core.review.ReviewInfo> request = manager.requestReviewFlow();
         request.addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         ReviewInfo reviewInfo = task.getResult();
